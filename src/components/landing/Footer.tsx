@@ -1,21 +1,13 @@
 import { MessageCircle, Phone } from "lucide-react";
 import { getSite } from "@/lib/get-site";
 import { telLink, whatsappLink } from "@/lib/contact";
-import { AdSlot, Logo } from "@/components/ui";
-import { ads } from "../../../config/ads";
+import { Logo } from "@/components/ui";
 import { navLinks } from "./nav";
 
 export async function Footer() {
   const site = await getSite();
   return (
     <footer className="bg-olive px-5 py-16 text-white sm:px-10 lg:px-20">
-      <div className="mx-auto mb-12 max-w-[1200px]">
-        {ads[0] && (
-          <div className="rounded-card bg-cream p-1">
-            <AdSlot ad={ads[0]} compact />
-          </div>
-        )}
-      </div>
       <div className="mx-auto grid max-w-[1200px] gap-10 md:grid-cols-[1.2fr_1fr_1fr]">
         <div className="flex flex-col gap-4">
           <Logo light />

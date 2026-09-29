@@ -1,7 +1,9 @@
 /**
- * Espacios de publicidad de la landing. Contenido real (no son placeholders): promocionan
- * la landing de Lunagui Viajes que hicimos nosotros (lunagui-viajes.netlify.app), no el sitio original.
- * Si en algún momento no hay nada para publicitar, dejar `ads` como [] y los espacios no se muestran.
+ * Espacios de publicidad de la landing. Contenido real (no son placeholders): promocionan otros
+ * proyectos nuestros, no los sitios originales de esos negocios.
+ * - Lunagui Viajes → lunagui-viajes.netlify.app
+ * - Aura Aromas Córdoba → aura-page.netlify.app
+ * Si en algún momento no hay nada para publicitar, dejar `ads` como [] y el espacio no se muestra.
  */
 export type Ad = {
   eyebrow: string;
@@ -22,5 +24,14 @@ export const ads: Ad[] = [
     href: "https://lunagui-viajes.netlify.app/?utm_source=casa-de-campo&utm_medium=referral",
     logo: "/logo-lunagui.png",
     logoAlt: "Logo de Lunagui Viajes",
+  },
+  {
+    eyebrow: "Publicidad",
+    title: "Llevate el aroma de tu estadía a casa",
+    text: "Aura Aromas Córdoba tiene difusores, aceites esenciales y velas premium para el hogar, venta mayorista y minorista.",
+    cta: "Ver catálogo de Aura",
+    href: "https://aura-page.netlify.app/?utm_source=casa-de-campo&utm_medium=referral",
+    logo: "/logo-aura.png",
+    logoAlt: "Logo de Aura Aromas Córdoba",
   },
 ];

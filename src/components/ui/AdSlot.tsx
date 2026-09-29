@@ -1,33 +1,32 @@
 import Image from "next/image";
-import { cn } from "@/lib/cn";
 import type { Ad } from "../../../config/ads";
 
 /**
- * Espacio de publicidad. Siempre lleva la etiqueta "Publicidad" visible (nunca se disfraza de
- * contenido propio de la casa) y abre en pestaña nueva, aclarado para quien usa lector de pantalla.
+ * Espacio de publicidad, como tarjeta editorial (logo + texto + link, no una tira genérica de banner).
+ * Siempre lleva la etiqueta "Publicidad" visible: nunca se disfraza de contenido propio de la casa.
+ * Abre en pestaña nueva, aclarado para quien usa lector de pantalla.
  */
-export function AdSlot({ ad, compact }: { ad: Ad; compact?: boolean }) {
+export function AdSlot({ ad }: { ad: Ad }) {
   return (
     <a
       href={ad.href}
       target="_blank"
       rel="noopener noreferrer sponsored"
-      className={cn(
-        "group flex items-center gap-5 rounded-card border border-line bg-paper transition-colors hover:bg-white",
-        compact ? "p-5" : "p-6 sm:p-8",
-      )}
+      className="group flex h-full flex-col gap-4 rounded-card border border-line bg-paper p-6 transition-colors hover:bg-white sm:p-7"
     >
-      <span aria-hidden className={cn("arc-sm flex shrink-0 items-center justify-center overflow-hidden bg-white", compact ? "h-16 w-16" : "h-20 w-20")}>
-        <Image src={ad.logo} alt="" width={80} height={80} className="h-full w-full object-contain p-1.5" />
-      </span>
-      <span className="flex min-w-0 flex-col gap-1">
-        <span className="eyebrow">{ad.eyebrow}</span>
-        <span className={cn("font-display font-semibold text-ink", compact ? "text-xl" : "text-2xl sm:text-3xl")}>{ad.title}</span>
-        {!compact && <span className="text-xl text-muted">{ad.text}</span>}
-        <span className="mt-1 font-bold text-olive underline underline-offset-4 group-hover:no-underline">
-          {ad.cta}
-          <span className="sr-only"> (se abre en una pestaña nueva)</span>
+      <span className="flex items-center gap-3">
+        <span aria-hidden className="arc-sm flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden bg-white">
+          <Image src={ad.logo} alt="" width={64} height={64} className="h-full w-full object-contain p-1.5" />
         </span>
+        <span className="eyebrow">{ad.eyebrow}</span>
+      </span>
+      <span className="flex flex-col gap-2">
+        <span className="font-display text-xl font-semibold text-ink sm:text-2xl">{ad.title}</span>
+        <span className="text-lg text-muted">{ad.text}</span>
+      </span>
+      <span className="mt-auto font-bold text-olive underline underline-offset-4 group-hover:no-underline">
+        {ad.cta}
+        <span className="sr-only"> (se abre en una pestaña nueva)</span>
       </span>
     </a>
   );
