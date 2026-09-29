@@ -28,7 +28,7 @@ export interface SiteConfig {
 }
 
 export const site: SiteConfig = {
-  name: "[Nombre de la casa]",
+  name: "Santa Mónica",
   locality: "[Localidad]",
   address: "[Dirección completa]",
   mapEmbedUrl: "", // URL "embed" de Google Maps; vacío = se muestra un placeholder
