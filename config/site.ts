@@ -1,6 +1,11 @@
 /**
  * Único lugar para editar los textos y datos de la casa.
- * Todo lo que está entre [corchetes] es un placeholder: reemplazalo por el dato real.
+ *
+ * ⚠️ MOCK: localidad, dirección, mapa, teléfono, precios, seña, horarios, estadía mínima,
+ * descripción y las cantidades de dormitorios/baños de acá abajo son de ejemplo (inventados
+ * para ver el sitio con contenido), no los datos reales de la casa. El teléfono/WhatsApp de
+ * ejemplo (5493510000000) es un número inventado: no llama ni escribe a nadie de verdad.
+ * Antes de publicar, reemplazá cada uno por el dato real.
  *
  * Más adelante, precios, seña, horarios, estadía mínima, teléfono y descripción
  * se leen de la tabla `settings` de Supabase (el admin los edita); estos valores
@@ -29,45 +34,46 @@ export interface SiteConfig {
 
 export const site: SiteConfig = {
   name: "Santa Mónica",
-  locality: "[Localidad]",
-  address: "[Dirección completa]",
-  mapEmbedUrl: "", // URL "embed" de Google Maps; vacío = se muestra un placeholder
+  locality: "Villa General Belgrano",
+  address: "Camino de las Sierras, km 4, Villa General Belgrano, Córdoba",
+  mapEmbedUrl: "https://maps.google.com/maps?q=Villa+General+Belgrano,+C%C3%B3rdoba&z=14&output=embed",
 
-  phone: "[TELÉFONO]", // como se muestra en pantalla
-  phoneHref: "", // solo dígitos con código de país, ej. 5493510000000; vacío = sin enlace
-  whatsappHref: "", // igual que phoneHref, para el botón de WhatsApp
+  phone: "351 000-0000", // como se muestra en pantalla
+  phoneHref: "5493510000000", // solo dígitos con código de país, ej. 5493510000000; vacío = sin enlace
+  whatsappHref: "5493510000000", // igual que phoneHref, para el botón de WhatsApp
 
-  pricePerNight: "[$ PRECIO]", // "Desde ... la noche" en el badge del hero
+  pricePerNight: "$ 70.000", // "Desde ... la noche" en el badge del hero
   prices: {
-    weekdays: "[$ PRECIO]", // lunes a jueves
-    weekend: "[$ PRECIO]", // viernes a domingo
-    holidays: "[$ PRECIO]", // feriados y fines de semana largos
+    weekdays: "$ 70.000", // lunes a jueves
+    weekend: "$ 95.000", // viernes a domingo
+    holidays: "$ 120.000", // feriados y fines de semana largos
   },
-  depositPercent: "[X]", // % de seña
-  minNights: "[N]",
-  maxGuests: "[N]",
-  checkIn: "[HH:MM]",
-  checkOut: "[HH:MM]",
+  depositPercent: "30", // % de seña
+  minNights: "2",
+  maxGuests: "8",
+  checkIn: "15:00",
+  checkOut: "10:00",
 
   /**
    * Valores numéricos para calcular el total. Mientras estén en null la reserva muestra "A confirmar".
    * Con Supabase mandan los de la tabla `settings`.
    */
   numbers: {
-    priceWeekday: null,
-    priceWeekend: null,
-    priceHoliday: null,
-    depositPercent: null,
-    minNights: null,
-    maxGuests: null,
+    priceWeekday: 70_000,
+    priceWeekend: 95_000,
+    priceHoliday: 120_000,
+    depositPercent: 30,
+    minNights: 2,
+    maxGuests: 8,
   } as Record<"priceWeekday" | "priceWeekend" | "priceHoliday" | "depositPercent" | "minNights" | "maxGuests", number | null>,
   holidays: [] as string[], // noches que se cobran como feriado, "YYYY-MM-DD"
 
-  description: "[Descripción de la casa: 2 o 3 frases cálidas y concretas.]",
+  description:
+    "Una casa de campo rodeada de sierras, pensada para desconectar unos días en familia o con amigos. Living con chimenea, pileta y un quincho grande para las tardes de asado.",
 
   amenities: [
-    { icon: "bed", label: "[N] dormitorios" },
-    { icon: "bath", label: "[N] baños" },
+    { icon: "bed", label: "4 dormitorios" },
+    { icon: "bath", label: "2 baños" },
     { icon: "waves", label: "Pileta" },
     { icon: "flame", label: "Parrilla y quincho" },
     { icon: "trees", label: "Galería" },
