@@ -1,0 +1,11 @@
+node_modules
+.next
+.env*.local
+*.tsbuildinfo
+next-env.d.ts
+firebase-debug.log
+.data
+
+# Local Netlify folder
+.netlify
+deno.lock

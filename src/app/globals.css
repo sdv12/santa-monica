@@ -1,0 +1,171 @@
+@import "tailwindcss";
+
+/* ───────── Tokens ───────── */
+:root {
+  --cream: #f4eee3;
+  --paper: #fbf8f2;
+  --sage: #e2e7d2;
+  --sage-deep: #c9d3b0;
+  --olive: #33402f;
+  --terra: #9a3f24;
+  --blush: #ebd3c1;
+  --ochre: #d9a441;
+  --ink: #26261e;
+  --muted: #5a584a;
+  --line: #ddd2be;
+  --line-strong: #bfb29a;
+
+  /* Estados de calendario (nunca solo color: además van tachado / punteado / etiqueta) */
+  --busy-bg: #e7dacb;
+  --busy-fg: #5f5544;
+  --pending-bg: #f6e3b5;
+  --pending-border: #b98a1f;
+  --blocked-bg: #d8d2c4;
+  --blocked-fg: #3f3d33;
+
+  --error: #9b2c1f;
+  --shadow-soft: 0 14px 32px rgba(51, 64, 47, 0.1);
+}
+
+@theme inline {
+  --color-cream: var(--cream);
+  --color-paper: var(--paper);
+  --color-sage: var(--sage);
+  --color-sage-deep: var(--sage-deep);
+  --color-olive: var(--olive);
+  --color-terra: var(--terra);
+  --color-blush: var(--blush);
+  --color-ochre: var(--ochre);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-busy-bg: var(--busy-bg);
+  --color-busy-fg: var(--busy-fg);
+  --color-pending-bg: var(--pending-bg);
+  --color-pending-border: var(--pending-border);
+  --color-blocked-bg: var(--blocked-bg);
+  --color-blocked-fg: var(--blocked-fg);
+  --color-error: var(--error);
+
+  --font-display: var(--font-fraunces), Georgia, serif;
+  --font-sans: var(--font-atkinson), system-ui, sans-serif;
+
+  --radius-card: 28px;
+  --shadow-soft: var(--shadow-soft);
+}
+
+/* ───────── Base ───────── */
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--cream);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 1.1875rem; /* 19px */
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  color: var(--ink);
+}
+
+:focus-visible {
+  outline: 3px solid var(--ochre);
+  outline-offset: 3px;
+}
+
+::selection {
+  background: var(--sage-deep);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* ───────── Tipografía ───────── */
+@layer components {
+  .t-h1 {
+    font-size: clamp(2.75rem, 8vw, 5rem); /* 80px desktop */
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+  }
+  .t-h2 {
+    font-size: clamp(2.25rem, 5.5vw, 3.5rem); /* 56px desktop */
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+  }
+  .t-h3 {
+    font-size: clamp(1.75rem, 3vw, 2rem);
+    line-height: 1.2;
+  }
+  /* Palabra clave: itálica terracota */
+  .t-h1 em,
+  .t-h2 em,
+  .t-h3 em {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--terra);
+  }
+  .t-lead {
+    font-size: clamp(1.1875rem, 2vw, 1.375rem); /* 19–22px */
+    line-height: 1.5;
+    color: var(--muted);
+  }
+  .eyebrow {
+    font-size: 0.9375rem; /* 15px */
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--terra);
+  }
+
+  /* El arco: ventana / puerta */
+  .arc {
+    border-radius: 999px 999px 28px 28px;
+  }
+  .arc-sm {
+    border-radius: 999px 999px 12px 12px;
+  }
+
+  /* Aparición suave al entrar en pantalla (sin JS; solo donde el navegador lo soporta) */
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .reveal {
+        animation: reveal-rise linear both;
+        animation-timeline: view();
+        animation-range: entry 0% entry 35%;
+      }
+    }
+  }
+}
+
+@keyframes reveal-rise {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
