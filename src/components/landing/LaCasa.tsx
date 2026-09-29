@@ -39,10 +39,8 @@ export async function LaCasa() {
           </ul>
         </div>
 
-        <div className="reveal grid grid-cols-2 gap-4">
-          <ArcFrame className="col-span-2 aspect-[16/11]" />
-          <ArcFrame variant="rect" className="aspect-square" />
-          <ArcFrame variant="rect" className="aspect-square" />
+        <div className="reveal mx-auto w-full max-w-md">
+          <ArcFrame className="aspect-[4/5] w-full" />
         </div>
       </div>
     </Section>

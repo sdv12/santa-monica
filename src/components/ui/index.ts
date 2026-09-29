@@ -10,3 +10,4 @@ export { Logo, ArchMark } from "./Logo";
 export { ContactActions } from "./ContactActions";
 export { Counter } from "./Counter";
 export { AdSlot } from "./AdSlot";
+export { WhatsAppFloat } from "./WhatsAppFloat";
