@@ -1,18 +1,32 @@
+import Image from "next/image";
 import { cn } from "@/lib/cn";
 
-/** Marco en arco para fotos. Sin children muestra una ilustración provisoria hasta tener la foto real. */
+/**
+ * Marco en arco para fotos. Con `src` muestra la foto real; sin `src` (o sin ninguno de los dos)
+ * muestra la ilustración provisoria hasta tener la foto.
+ */
 export function ArcFrame({
+  src,
+  alt,
+  priority,
   children,
   className,
   variant = "arc",
 }: {
+  src?: string;
+  alt?: string;
+  priority?: boolean;
   children?: React.ReactNode;
   className?: string;
   variant?: "arc" | "rect";
 }) {
   return (
     <div className={cn("relative overflow-hidden bg-sage-deep", variant === "arc" ? "arc" : "rounded-card", className)}>
-      {children ?? <PhotoPlaceholder />}
+      {src ? (
+        <Image src={src} alt={alt ?? ""} fill priority={priority} sizes="(min-width: 1024px) 40vw, 90vw" className="object-cover" />
+      ) : (
+        (children ?? <PhotoPlaceholder />)
+      )}
     </div>
   );
 }

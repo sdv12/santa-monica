@@ -40,7 +40,7 @@ export async function LaCasa() {
         </div>
 
         <div className="reveal mx-auto w-full max-w-md">
-          <ArcFrame className="aspect-[4/5] w-full" />
+          <ArcFrame src="/casa/casa-exterior.jpg" alt="Frente de la casa al atardecer, con la pileta y el jardín" className="aspect-[4/5] w-full" />
         </div>
       </div>
     </Section>

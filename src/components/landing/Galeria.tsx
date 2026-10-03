@@ -34,6 +34,7 @@ export function Galeria() {
               role="tab"
               aria-selected={isActive}
               aria-controls="foto-activa"
+              aria-label={p.alt}
               onClick={() => setActive(i)}
               className={cn(
                 "relative h-full w-[75vw] shrink-0 overflow-hidden rounded-2xl border-2 transition-[flex-grow] duration-500 sm:w-auto",

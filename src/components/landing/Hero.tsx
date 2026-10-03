@@ -28,7 +28,12 @@ export async function Hero() {
         </div>
 
         <div className="relative mx-auto w-full max-w-md">
-          <ArcFrame className="aspect-[4/5] w-full" />
+          <ArcFrame
+            src="/casa/foto-principal.jpg"
+            alt="Galería techada de la casa, con luces colgantes, al atardecer, con vista a las sierras"
+            priority
+            className="aspect-[4/5] w-full"
+          />
           <div className="absolute -bottom-6 -left-2 flex h-36 w-36 flex-col items-center justify-center rounded-full bg-ochre p-3 text-center text-ink sm:-left-10 sm:h-40 sm:w-40">
             <span className="text-base font-bold">Desde</span>
             <span className="font-display text-2xl font-semibold leading-tight sm:text-3xl">{site.pricePerNight}</span>
