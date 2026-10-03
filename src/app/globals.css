@@ -171,29 +171,39 @@ h4 {
 }
 
 /*
- * Foto del hero: 3 fotos superpuestas que se funden una en otra, muy lento (18s), solo con CSS
- * (sin JS, sin video). Cada capa usa la misma animación con un atraso distinto para que, en todo
- * momento, una esté visible y la siguiente ya empezando a aparecer (nunca se ven las dos apagadas
- * a la vez). Con "reducir movimiento" activado, la regla global ya dejaba todas las animaciones casi
- * sin duración: acá además mantenemos fija la primera foto y escondemos las otras dos, en vez de que
- * las 3 quedaamontonadas.
+ * Foto del hero: 3 fotos superpuestas, cada una se revela con un barrido de izquierda a derecha
+ * (clip-path) y después se esconde con un fundido simple, muy lento (18s en total), solo con CSS
+ * (sin JS, sin video). Mismo truco que antes para que nunca se vean las 3 apagadas a la vez: misma
+ * animación en las 3 capas, con un atraso distinto cada una. Con "reducir movimiento" activado,
+ * queda fija la primera foto y las otras dos no se ven.
  */
-@keyframes hero-crossfade {
+@keyframes hero-wipe {
   0%,
-  30% {
+  28% {
     opacity: 1;
+    clip-path: inset(0 0% 0 0);
   }
-  38%,
-  92% {
+  34% {
     opacity: 0;
+    clip-path: inset(0 0% 0 0);
   }
+  86% {
+    opacity: 0;
+    clip-path: inset(0 100% 0 0);
+  }
+  87% {
+    opacity: 1;
+    clip-path: inset(0 100% 0 0);
+  }
+  95%,
   100% {
     opacity: 1;
+    clip-path: inset(0 0% 0 0);
   }
 }
 
 .hero-slide {
-  animation: hero-crossfade 18s ease-in-out infinite;
+  animation: hero-wipe 18s ease-in-out infinite;
 }
 .hero-slide:nth-child(1) {
   animation-delay: 0s;
@@ -206,10 +216,17 @@ h4 {
   opacity: 0;
 }
 
+/* El borde derecho de la foto se funde con el fondo de la sección, en vez de cortar en seco. */
+.hero-photo-fade {
+  -webkit-mask-image: linear-gradient(to right, black 72%, transparent 100%);
+  mask-image: linear-gradient(to right, black 72%, transparent 100%);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .hero-slide {
     animation: none;
     opacity: 0;
+    clip-path: inset(0 0% 0 0);
   }
   .hero-slide:nth-child(1) {
     opacity: 1;

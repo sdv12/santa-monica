@@ -1,7 +1,8 @@
 import { Check } from "lucide-react";
 import { getSite } from "@/lib/get-site";
-import { ArcFrame, Section } from "@/components/ui";
+import { Section } from "@/components/ui";
 import { BarraReserva } from "./BarraReserva";
+import { HeroPhoto } from "./HeroPhoto";
 
 export async function Hero() {
   const site = await getSite();
@@ -28,13 +29,12 @@ export async function Hero() {
         </div>
 
         <div className="relative mx-auto w-full max-w-md">
-          <ArcFrame
+          <HeroPhoto
             photos={[
               { src: "/casa/foto-principal.jpg", alt: "Galería techada de la casa, con luces colgantes, al atardecer, con vista a las sierras" },
               { src: "/casa/galeria-8.jpg", alt: "Unos mates junto a la pileta, de día" },
               { src: "/casa/casa-exterior.jpg", alt: "Frente de la casa al atardecer, con la pileta y el jardín" },
             ]}
-            priority
             className="aspect-[4/5] w-full"
           />
           <div className="absolute -bottom-6 -left-2 flex h-36 w-36 flex-col items-center justify-center rounded-full bg-ochre p-3 text-center text-ink sm:-left-10 sm:h-40 sm:w-40">
