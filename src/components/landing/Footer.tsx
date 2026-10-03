@@ -3,6 +3,7 @@ import { getSite } from "@/lib/get-site";
 import { telLink, whatsappLink } from "@/lib/contact";
 import { Logo } from "@/components/ui";
 import { navLinks } from "./nav";
+import pkg from "../../../package.json";
 
 export async function Footer() {
   const site = await getSite();
@@ -36,7 +37,7 @@ export async function Footer() {
 
       <div className="mx-auto mt-12 flex max-w-[1200px] flex-wrap items-center justify-between gap-3 border-t border-white/20 pt-6 text-base text-sage">
         <p>
-          © {new Date().getFullYear()} {site.name}
+          © {new Date().getFullYear()} {site.name} · v{pkg.version}
         </p>
         <a href="/admin" className="py-2 underline underline-offset-4">
           Acceso administrador
