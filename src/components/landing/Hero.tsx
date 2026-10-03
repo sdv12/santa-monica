@@ -7,15 +7,15 @@ export async function Hero() {
   const site = await getSite();
   const checks = ["Sin registrarte", "Confirmación por WhatsApp", `Seña del ${site.depositPercent}%`];
   return (
-    <Section tone="cream" labelledBy="titulo-hero" className="!pb-12 !pt-10 lg:!pt-16">
-      <div className="grid items-center gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
-        <div className="flex flex-col gap-6">
+    <Section tone="cream" labelledBy="titulo-hero" className="!pb-8 !pt-6 sm:!pb-10 sm:!pt-8 lg:!pb-12 lg:!pt-16">
+      <div className="grid items-center gap-8 sm:gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
+        <div className="flex flex-col gap-4 sm:gap-6">
           <p className="eyebrow">Casa de campo · {site.locality}</p>
           <h1 id="titulo-hero" className="t-h1">
             Un lugar para <em>quedarse</em> un rato.
           </h1>
           <p className="t-lead max-w-xl">{site.description}</p>
-          <ul className="mt-2 flex flex-col gap-3">
+          <ul className="mt-1 flex flex-col gap-2 sm:mt-2 sm:gap-3">
             {checks.map((c) => (
               <li key={c} className="flex items-center gap-3 text-xl font-bold">
                 <span aria-hidden className="flex h-9 w-9 items-center justify-center rounded-full bg-sage-deep text-olive">
@@ -29,8 +29,11 @@ export async function Hero() {
 
         <div className="relative mx-auto w-full max-w-md">
           <ArcFrame
-            src="/casa/foto-principal.jpg"
-            alt="Galería techada de la casa, con luces colgantes, al atardecer, con vista a las sierras"
+            photos={[
+              { src: "/casa/foto-principal.jpg", alt: "Galería techada de la casa, con luces colgantes, al atardecer, con vista a las sierras" },
+              { src: "/casa/galeria-8.jpg", alt: "Unos mates junto a la pileta, de día" },
+              { src: "/casa/casa-exterior.jpg", alt: "Frente de la casa al atardecer, con la pileta y el jardín" },
+            ]}
             priority
             className="aspect-[4/5] w-full"
           />
@@ -42,7 +45,7 @@ export async function Hero() {
         </div>
       </div>
 
-      <div className="mt-16 lg:mt-20">
+      <div className="mt-8 sm:mt-12 lg:mt-20">
         <BarraReserva />
       </div>
     </Section>

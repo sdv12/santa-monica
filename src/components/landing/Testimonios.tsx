@@ -6,15 +6,15 @@ export function Testimonios() {
   if (testimonials.length === 0) return null;
   return (
     <Section tone="paper" labelledBy="titulo-testimonios">
-      <div className="reveal mb-10 max-w-2xl">
+      <div className="reveal mb-6 max-w-2xl sm:mb-8 lg:mb-10">
         <p className="eyebrow mb-3">Huéspedes</p>
         <h2 id="titulo-testimonios" className="t-h2">
           Lo que cuentan nuestros <em>huéspedes</em>
         </h2>
       </div>
-      <div className="grid gap-6 md:grid-cols-3">
+      <div className="grid gap-4 sm:gap-6 md:grid-cols-3">
         {testimonials.map((t, i) => (
-          <figure key={i} className="reveal flex flex-col gap-4 rounded-card border border-line bg-cream p-6 sm:p-7">
+          <figure key={i} className="reveal flex flex-col gap-3 rounded-card border border-line bg-cream p-5 sm:gap-4 sm:p-7">
             <div className="flex items-center gap-3">
               <span aria-hidden className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-sage text-olive">
                 <UserRound size={26} strokeWidth={1.7} />

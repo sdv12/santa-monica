@@ -1,13 +1,19 @@
 import Image from "next/image";
 import { cn } from "@/lib/cn";
 
+type Photo = { src: string; alt?: string };
+
 /**
- * Marco en arco para fotos. Con `src` muestra la foto real; sin `src` (o sin ninguno de los dos)
- * muestra la ilustración provisoria hasta tener la foto.
+ * Marco en arco para fotos.
+ * - Con `photos` (2 o 3 fotos) las va fundiendo una en otra, muy lento, solo con CSS (ver
+ *   `.hero-slide` en globals.css). Respeta "reducir movimiento": ahí queda fija la primera.
+ * - Con `src` muestra una sola foto real.
+ * - Sin ninguno de los dos, muestra la ilustración provisoria hasta tener la foto.
  */
 export function ArcFrame({
   src,
   alt,
+  photos,
   priority,
   children,
   className,
@@ -15,6 +21,7 @@ export function ArcFrame({
 }: {
   src?: string;
   alt?: string;
+  photos?: Photo[];
   priority?: boolean;
   children?: React.ReactNode;
   className?: string;
@@ -22,7 +29,19 @@ export function ArcFrame({
 }) {
   return (
     <div className={cn("relative overflow-hidden bg-sage-deep", variant === "arc" ? "arc" : "rounded-card", className)}>
-      {src ? (
+      {photos && photos.length > 0 ? (
+        photos.map((p, i) => (
+          <Image
+            key={p.src}
+            src={p.src}
+            alt={p.alt ?? ""}
+            fill
+            priority={priority && i === 0}
+            sizes="(min-width: 1024px) 40vw, 90vw"
+            className="hero-slide object-cover"
+          />
+        ))
+      ) : src ? (
         <Image src={src} alt={alt ?? ""} fill priority={priority} sizes="(min-width: 1024px) 40vw, 90vw" className="object-cover" />
       ) : (
         (children ?? <PhotoPlaceholder />)

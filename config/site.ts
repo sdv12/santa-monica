@@ -13,6 +13,7 @@
  */
 export interface SiteConfig {
   name: string;
+  hosts: string;
   locality: string;
   address: string;
   mapEmbedUrl: string;
@@ -34,6 +35,7 @@ export interface SiteConfig {
 
 export const site: SiteConfig = {
   name: "Santa Mónica",
+  hosts: "Gabriela y Juan", // quiénes atienden: aparece en el panel de admin y en "Cómo llegar"
   locality: "Villa General Belgrano",
   address: "Camino de las Sierras, km 4, Villa General Belgrano, Córdoba",
   mapEmbedUrl: "https://maps.google.com/maps?q=Villa+General+Belgrano,+C%C3%B3rdoba&z=14&output=embed",

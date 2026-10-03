@@ -19,7 +19,7 @@ export default async function PanelLayout({ children }: { children: React.ReactN
       <header className="bg-olive px-5 py-3 text-white sm:px-10 lg:px-20">
         <div className="mx-auto flex max-w-[1400px] flex-wrap items-center justify-between gap-3">
           <p className="flex flex-wrap items-center gap-3 font-display text-2xl font-semibold">
-            {site.name}
+            {site.hosts}
             <span className="rounded-full border-2 border-white/60 px-3 py-0.5 font-sans text-base font-bold uppercase tracking-[0.14em]">Administración</span>
           </p>
           <div className="flex items-center gap-2">

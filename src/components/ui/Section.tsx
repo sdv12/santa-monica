@@ -27,7 +27,7 @@ export function Section({
   children: React.ReactNode;
 }) {
   return (
-    <section id={id} aria-labelledby={labelledBy} className={cn("scroll-mt-20 px-5 py-16 sm:px-10 lg:px-20 lg:py-24", tones[tone], className)}>
+    <section id={id} aria-labelledby={labelledBy} className={cn("scroll-mt-20 px-5 py-10 sm:px-10 sm:py-14 lg:px-20 lg:py-24", tones[tone], className)}>
       <div className={cn("mx-auto w-full max-w-[1200px]", innerClassName)}>{children}</div>
     </section>
   );

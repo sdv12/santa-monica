@@ -12,7 +12,7 @@ export function AdSlot({ ad }: { ad: Ad }) {
       href={ad.href}
       target="_blank"
       rel="noopener noreferrer sponsored"
-      className="group flex h-full flex-col gap-4 rounded-card border border-line bg-paper p-6 transition-colors hover:bg-white sm:p-7"
+      className="group flex h-full flex-col gap-3 rounded-card border border-line bg-paper p-5 transition-colors hover:bg-white sm:gap-4 sm:p-7"
     >
       <span className="flex items-center gap-3">
         <span aria-hidden className="arc-sm flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden bg-white">

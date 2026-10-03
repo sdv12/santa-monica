@@ -19,9 +19,9 @@ export function BarraReserva() {
       action="/reservar"
       method="get"
       aria-label="Consultar disponibilidad"
-      className="rounded-card border border-line bg-paper p-5 shadow-soft sm:p-8"
+      className="rounded-card border border-line bg-paper p-4 shadow-soft sm:p-8"
     >
-      <div className="grid items-end gap-5 lg:grid-cols-[1fr_1fr_1fr_auto]">
+      <div className="grid items-end gap-4 sm:gap-5 lg:grid-cols-[1fr_1fr_1fr_auto]">
         <Field
           label="Llegada"
           name="llegada"

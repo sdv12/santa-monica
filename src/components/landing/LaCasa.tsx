@@ -17,14 +17,14 @@ export async function LaCasa() {
   const site = await getSite();
   return (
     <Section tone="paper" id="la-casa" labelledBy="titulo-casa">
-      <div className="grid gap-12 lg:grid-cols-2 lg:gap-16">
-        <div className="reveal flex flex-col gap-6">
+      <div className="grid gap-8 lg:grid-cols-2 lg:gap-16">
+        <div className="reveal flex flex-col gap-4 sm:gap-6">
           <p className="eyebrow">La casa</p>
           <h2 id="titulo-casa" className="t-h2">
             Todo lo que hace falta para <em>descansar</em>
           </h2>
           <p className="t-lead">{site.description}</p>
-          <ul className="mt-2 grid gap-x-6 gap-y-5 sm:grid-cols-2">
+          <ul className="mt-1 grid gap-x-6 gap-y-3 sm:mt-2 sm:grid-cols-2 sm:gap-y-5">
             {site.amenities.map((a) => {
               const Icon = icons[a.icon];
               return (

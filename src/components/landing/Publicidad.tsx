@@ -9,7 +9,7 @@ export function Publicidad() {
       <h2 id="titulo-publicidad" className="sr-only">
         Publicidad
       </h2>
-      <div className={ads.length > 1 ? "grid gap-6 sm:grid-cols-2" : "mx-auto max-w-xl"}>
+      <div className={ads.length > 1 ? "grid gap-4 sm:grid-cols-2 sm:gap-6" : "mx-auto max-w-xl"}>
         {ads.map((ad) => (
           <AdSlot key={ad.href} ad={ad} />
         ))}

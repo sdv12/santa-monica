@@ -17,14 +17,14 @@ export function Galeria() {
 
   return (
     <Section tone="cream" labelledBy="titulo-galeria">
-      <div className="reveal mb-10 max-w-2xl">
+      <div className="reveal mb-6 max-w-2xl sm:mb-8 lg:mb-10">
         <p className="eyebrow mb-3">Un vistazo</p>
         <h2 id="titulo-galeria" className="t-h2">
           La casa en <em>fotos</em>
         </h2>
       </div>
 
-      <div role="tablist" aria-label="Fotos de la casa" className="reveal flex h-64 gap-2 overflow-x-auto pb-2 sm:h-[420px] sm:gap-3 sm:overflow-visible">
+      <div role="tablist" aria-label="Fotos de la casa" className="reveal flex h-52 gap-2 overflow-x-auto pb-2 sm:h-[420px] sm:gap-3 sm:overflow-visible">
         {galleryPhotos.map((p, i) => {
           const isActive = i === active;
           return (
@@ -53,7 +53,7 @@ export function Galeria() {
           );
         })}
       </div>
-      <p id="foto-activa" className="reveal mt-4 text-center text-xl font-bold sm:text-left">
+      <p id="foto-activa" className="reveal mt-3 text-center text-xl font-bold sm:mt-4 sm:text-left">
         {galleryPhotos[active].alt}
       </p>
     </Section>

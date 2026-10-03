@@ -7,7 +7,7 @@ import { whatsappLink } from "@/lib/contact";
 /** Botón fijo, siempre visible: la alternativa humana a un toque desde cualquier punto de la página. */
 export function WhatsAppFloat() {
   const site = useSite();
-  const href = whatsappLink(site, `Hola, tengo una consulta sobre ${site.name}.`);
+  const href = whatsappLink(site, `Hola ${site.hosts}, tengo una consulta sobre ${site.name}.`);
   if (!href) return null;
   return (
     <a

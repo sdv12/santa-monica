@@ -21,19 +21,19 @@ export async function Disponibilidad() {
   const [occupied, site] = await Promise.all([getOccupiedRanges(), getSite()]);
   return (
     <Section tone="cream" id="precios" labelledBy="titulo-precios">
-      <div className="reveal mb-12 max-w-2xl">
+      <div className="reveal mb-6 max-w-2xl sm:mb-8 lg:mb-12">
         <p className="eyebrow mb-3">Antes de reservar</p>
         <h2 id="titulo-precios" className="t-h2">
           Disponibilidad y <em>precios</em>
         </h2>
       </div>
 
-      <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">
+      <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr] lg:gap-8">
         <Card className="reveal">
           <Calendar occupied={occupied} size="md" />
         </Card>
 
-        <Card className="reveal flex flex-col gap-6">
+        <Card className="reveal flex flex-col gap-4 sm:gap-6">
           <h3 className="t-h3">Precio por <em>noche</em></h3>
           <dl className="flex flex-col divide-y divide-line">
             {priceRows(site).map((r) => (

@@ -10,6 +10,7 @@ export const galleryPhotos: GalleryPhoto[] = [
   { src: "/casa/galeria-2.jpg", alt: "Comedor con cocina abierta" },
   { src: "/casa/galeria-3.jpg", alt: "Dormitorio" },
   { src: "/casa/galeria-4.jpg", alt: "Baño" },
+  { src: "/casa/galeria-7.jpg", alt: "Parrilla y quincho (no incluye asado ni carne)" },
   { src: "/casa/galeria-5.jpg", alt: "Pileta" },
-  { src: "/casa/galeria-6.jpg", alt: "Atardecer en la pileta" },
+  { src: "/casa/galeria-8.jpg", alt: "Unos mates junto a la pileta" },
 ];
