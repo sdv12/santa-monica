@@ -2,7 +2,7 @@ import Link from "next/link";
 import { cn } from "@/lib/cn";
 
 type Variant = "primary" | "terra" | "outline" | "light";
-type Size = "md" | "lg";
+type Size = "sm" | "md" | "lg";
 
 const variants: Record<Variant, string> = {
   primary: "bg-olive text-white border-2 border-olive hover:bg-[#28331f]",
@@ -12,6 +12,8 @@ const variants: Record<Variant, string> = {
 };
 
 const sizes: Record<Size, string> = {
+  // Para pares de botones secundarios (ej. WhatsApp / Llamar) en espacios angostos.
+  sm: "min-h-14 px-6 text-lg",
   md: "min-h-[60px] px-8 text-xl",
   lg: "min-h-[72px] px-10 text-2xl",
 };

@@ -14,7 +14,9 @@ export function WhatsAppFloat() {
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="fixed bottom-5 right-5 z-50 flex min-h-16 items-center gap-3 rounded-full bg-terra px-6 text-lg font-bold text-white shadow-soft hover:bg-[#833519] sm:bottom-8 sm:right-8"
+      // bottom-24: deja lugar para el sello "Powered by Netlify" que Netlify agrega solo en este
+      // dominio *.netlify.app de prueba; con un dominio propio ese sello no aparece.
+      className="fixed bottom-24 right-5 z-50 flex min-h-16 items-center gap-3 rounded-full bg-terra px-6 text-lg font-bold text-white shadow-soft hover:bg-[#833519] sm:right-8"
     >
       <MessageCircle size={28} strokeWidth={1.7} aria-hidden />
       WhatsApp
