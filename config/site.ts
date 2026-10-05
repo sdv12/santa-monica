@@ -1,10 +1,9 @@
 /**
  * Único lugar para editar los textos y datos de la casa.
  *
- * ⚠️ MOCK: localidad, dirección, mapa, teléfono, precios, seña, horarios, estadía mínima,
+ * ⚠️ MOCK: localidad, dirección, mapa, precios, seña, horarios, estadía mínima,
  * descripción y las cantidades de dormitorios/baños de acá abajo son de ejemplo (inventados
- * para ver el sitio con contenido), no los datos reales de la casa. El teléfono/WhatsApp de
- * ejemplo (5493510000000) es un número inventado: no llama ni escribe a nadie de verdad.
+ * para ver el sitio con contenido), no los datos reales de la casa.
  * Antes de publicar, reemplazá cada uno por el dato real.
  *
  * Más adelante, precios, seña, horarios, estadía mínima, teléfono y descripción
@@ -40,9 +39,9 @@ export const site: SiteConfig = {
   address: "Camino de las Sierras, km 4, Villa General Belgrano, Córdoba",
   mapEmbedUrl: "https://maps.google.com/maps?q=Villa+General+Belgrano,+C%C3%B3rdoba&z=14&output=embed",
 
-  phone: "351 000-0000", // como se muestra en pantalla
-  phoneHref: "5493510000000", // solo dígitos con código de país, ej. 5493510000000; vacío = sin enlace
-  whatsappHref: "5493510000000", // igual que phoneHref, para el botón de WhatsApp
+  phone: "351 514-8446", // como se muestra en pantalla
+  phoneHref: "5493515148446", // solo dígitos con código de país: 54 + 9 + código de área + número
+  whatsappHref: "5493515148446", // igual que phoneHref, para el botón de WhatsApp
 
   pricePerNight: "$ 70.000", // "Desde ... la noche" en el badge del hero
   prices: {

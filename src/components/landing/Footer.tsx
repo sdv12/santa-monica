@@ -35,7 +35,7 @@ export async function Footer() {
         </div>
       </div>
 
-      <div className="mx-auto mt-6 flex max-w-[1200px] flex-wrap items-center justify-between gap-2 border-t border-white/20 pt-4 text-base text-sage sm:mt-8">
+      <div className="mx-auto mb-20 mt-6 flex max-w-[1200px] flex-wrap items-center justify-between gap-2 border-t border-white/20 pt-4 text-base text-sage sm:mb-0 sm:mt-8">
         <p>
           © {new Date().getFullYear()} {site.name} · v{pkg.version}
         </p>

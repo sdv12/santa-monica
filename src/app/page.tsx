@@ -10,7 +10,7 @@ import { GuiaLocal } from "@/components/landing/GuiaLocal";
 import { ComoLlegar } from "@/components/landing/ComoLlegar";
 import { Publicidad } from "@/components/landing/Publicidad";
 import { Footer } from "@/components/landing/Footer";
-import { WhatsAppFloat } from "@/components/ui";
+import { ContactoFijo } from "@/components/ui/ContactoFijo";
 
 export default function Home() {
   return (
@@ -29,7 +29,7 @@ export default function Home() {
         <Publicidad />
       </main>
       <Footer />
-      <WhatsAppFloat />
+      <ContactoFijo />
     </>
   );
 }
