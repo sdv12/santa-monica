@@ -11,10 +11,22 @@ export function ContactActions({ size = "sm", light, message }: { size?: "sm" | 
   const variant = light ? "light" : "outline";
   return (
     <div className="flex flex-col gap-3 sm:flex-row">
-      <Button href={whatsappLink(site, message) ?? "#"} variant={variant} size={size} icon={<MessageCircle size={24} strokeWidth={1.7} aria-hidden />}>
+      <Button
+        href={whatsappLink(site, message) ?? "#"}
+        variant={variant}
+        size={size}
+        className="w-full sm:w-auto"
+        icon={<MessageCircle size={24} strokeWidth={1.7} aria-hidden />}
+      >
         WhatsApp
       </Button>
-      <Button href={telLink(site) ?? "#"} variant={variant} size={size} icon={<Phone size={24} strokeWidth={1.7} aria-hidden />}>
+      <Button
+        href={telLink(site) ?? "#"}
+        variant={variant}
+        size={size}
+        className="w-full text-balance sm:w-auto"
+        icon={<Phone size={24} strokeWidth={1.7} aria-hidden />}
+      >
         Llamar al {site.phone}
       </Button>
     </div>

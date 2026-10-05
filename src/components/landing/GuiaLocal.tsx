@@ -1,4 +1,4 @@
-import { ArcFrame, Section } from "@/components/ui";
+import { Section } from "@/components/ui";
 import { localGuide } from "../../../config/local-guide";
 
 export function GuiaLocal() {
@@ -10,19 +10,26 @@ export function GuiaLocal() {
         <h2 id="titulo-guia" className="t-h2">
           Disfrutá <em>Córdoba</em>
         </h2>
-        <p className="t-lead mt-2">Ideas para el rato libre, cerca de la casa.</p>
+        <p className="t-lead mt-2">Trekkings, fiestas, dónde comer y cómo moverse, cerca de la casa.</p>
       </div>
-      <ul className="reveal flex gap-4 overflow-x-auto pb-2 sm:grid sm:grid-cols-3 sm:gap-5 sm:overflow-visible">
+
+      <div className="reveal grid gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3">
         {localGuide.map((g) => (
-          <li key={g.title} className="flex w-[70vw] shrink-0 flex-col gap-2 sm:w-auto sm:gap-4">
-            <ArcFrame variant="rect" className="aspect-[3/2] sm:aspect-[4/3]" />
-            <div>
-              <p className="font-display text-xl font-semibold">{g.title}</p>
-              <p className="text-lg text-muted">{g.text}</p>
-            </div>
-          </li>
+          <section key={g.title} aria-labelledby={`guia-${g.title}`} className="flex flex-col gap-3 rounded-card border border-line bg-cream p-5 sm:p-6">
+            <h3 id={`guia-${g.title}`} className="font-display text-2xl font-semibold">
+              {g.title}
+            </h3>
+            <ul className="flex flex-col divide-y divide-line">
+              {g.items.map((it) => (
+                <li key={it.name} className="py-3">
+                  <p className="text-lg font-bold">{it.name}</p>
+                  <p className="text-base text-muted">{it.detail}</p>
+                </li>
+              ))}
+            </ul>
+          </section>
         ))}
-      </ul>
+      </div>
     </Section>
   );
 }

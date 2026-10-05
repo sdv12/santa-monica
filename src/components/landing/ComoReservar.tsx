@@ -1,5 +1,5 @@
 import { getSite } from "@/lib/get-site";
-import { ArcBadge, Card, ContactActions, Section } from "@/components/ui";
+import { ArcBadge, Card, ContactActions, HAccordion, Section } from "@/components/ui";
 
 const steps = [
   { title: "Elegí las fechas", text: "Mirá el calendario y tocá el día de llegada y el de salida." },
@@ -18,9 +18,23 @@ export async function ComoReservar() {
         </h2>
       </div>
 
-      <ol className="grid gap-4 sm:gap-6 md:grid-cols-3">
+      {/* Celular: acordeón horizontal (se despliega hacia la derecha) */}
+      <div className="reveal sm:hidden">
+        <HAccordion
+          label="Pasos para reservar"
+          items={steps.map((s, i) => ({
+            id: s.title,
+            short: String(i + 1),
+            title: s.title,
+            children: <p className="text-xl text-muted">{s.text}</p>,
+          }))}
+        />
+      </div>
+
+      {/* Tablet y escritorio: tres tarjetas */}
+      <ol className="hidden gap-6 sm:grid md:grid-cols-3">
         {steps.map((s, i) => (
-          <Card as="li" key={s.title} className="reveal flex flex-col gap-3 sm:gap-5">
+          <Card as="li" key={s.title} className="reveal flex flex-col gap-5">
             <ArcBadge n={i + 1} />
             <h3 className="t-h3">{s.title}</h3>
             <p className="text-xl text-muted">{s.text}</p>
@@ -28,8 +42,8 @@ export async function ComoReservar() {
         ))}
       </ol>
 
-      <div className="reveal mt-6 flex flex-col gap-4 rounded-card bg-paper p-5 sm:mt-8 sm:gap-5 sm:p-8 lg:mt-10 lg:flex-row lg:items-center lg:justify-between">
-        <p className="font-display text-2xl font-semibold sm:text-3xl">
+      <div className="reveal mt-6 flex flex-col gap-4 rounded-card bg-paper p-5 sm:mt-8 sm:gap-5 sm:p-7 lg:mt-10 lg:flex-row lg:items-center lg:justify-between">
+        <p className="font-display text-xl font-semibold sm:text-2xl">
           ¿Preferís hacerlo por teléfono? Llamanos al {site.phone} y te ayudamos.
         </p>
         <ContactActions />

@@ -74,13 +74,16 @@ export const site: SiteConfig = {
     "Una casa de campo rodeada de sierras, pensada para desconectar unos días en familia o con amigos. Living con chimenea, pileta y un quincho grande para las tardes de asado.",
 
   amenities: [
-    { icon: "bed", label: "4 dormitorios" },
-    { icon: "bath", label: "2 baños" },
+    { icon: "bed", label: "3 dormitorios" },
+    { icon: "bath", label: "1 baño: ducha e inodoro separados, lavamanos compartido" },
     { icon: "waves", label: "Pileta" },
     { icon: "flame", label: "Parrilla y quincho" },
     { icon: "trees", label: "Galería" },
     { icon: "wifi", label: "Wi-Fi" },
     { icon: "thermometer", label: "Aire y calefacción" },
-    { icon: "car", label: "Cochera" },
+    { icon: "car", label: "Cochera para 2 autos" },
+    { icon: "camera", label: "Cámaras de seguridad" },
+    { icon: "washer", label: "Lavarropas" },
+    { icon: "shirt", label: "Tendedero" },
   ],
 };

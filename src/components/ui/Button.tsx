@@ -32,7 +32,7 @@ type AsLink = Common & Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, keyof
 export function Button(props: AsButton | AsLink) {
   const { variant = "primary", size = "md", icon, className, children, ...rest } = props;
   const classes = cn(
-    "inline-flex items-center justify-center gap-3 rounded-full font-bold leading-tight text-center transition-colors",
+    "inline-flex max-w-full items-center justify-center gap-3 rounded-full font-bold leading-tight text-center text-balance transition-colors",
     "disabled:cursor-not-allowed disabled:opacity-60",
     variants[variant],
     sizes[size],

@@ -1,7 +1,10 @@
 import { getSite } from "@/lib/get-site";
 import { getOccupiedRanges } from "@/lib/data";
+import { todayISO } from "@/lib/dates";
 import { Button, Card, Section } from "@/components/ui";
-import { Calendar } from "@/components/calendar/Calendar";
+import { Calendar, type DayMark } from "@/components/calendar/Calendar";
+import { calendarDays } from "../../../config/events";
+import { EventosLista } from "./EventosLista";
 
 const priceRows = (site: Awaited<ReturnType<typeof getSite>>) => [
   { label: "Lunes a jueves", value: site.prices.weekdays },
@@ -19,6 +22,10 @@ const conditions = (site: Awaited<ReturnType<typeof getSite>>) => [
 
 export async function Disponibilidad() {
   const [occupied, site] = await Promise.all([getOccupiedRanges(), getSite()]);
+  const today = todayISO();
+  const marks = Object.fromEntries(calendarDays.map((d) => [d.date, { kind: d.kind, name: d.name } satisfies DayMark]));
+  const upcoming = calendarDays.filter((d) => d.date >= today).slice(0, 8);
+
   return (
     <Section tone="cream" id="precios" labelledBy="titulo-precios">
       <div className="reveal mb-6 max-w-2xl sm:mb-8 lg:mb-12">
@@ -29,12 +36,19 @@ export async function Disponibilidad() {
       </div>
 
       <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr] lg:gap-8">
-        <Card className="reveal">
-          <Calendar occupied={occupied} size="md" />
-        </Card>
+        <div className="flex flex-col gap-6">
+          <Card className="reveal">
+            <Calendar occupied={occupied} marks={marks} size="md" />
+          </Card>
+          <Card className="reveal">
+            <EventosLista days={upcoming} />
+          </Card>
+        </div>
 
-        <Card className="reveal flex flex-col gap-4 sm:gap-6">
-          <h3 className="t-h3">Precio por <em>noche</em></h3>
+        <Card className="reveal flex h-fit flex-col gap-4 sm:gap-6">
+          <h3 className="t-h3">
+            Precio por <em>noche</em>
+          </h3>
           <dl className="flex flex-col divide-y divide-line">
             {priceRows(site).map((r) => (
               <div key={r.label} className="flex items-baseline justify-between gap-4 py-3">

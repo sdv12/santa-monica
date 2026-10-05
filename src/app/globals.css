@@ -18,6 +18,11 @@
   /* Estados de calendario (nunca solo color: además van tachado / punteado / etiqueta) */
   --busy-bg: #e7dacb;
   --busy-fg: #5f5544;
+  /* Calendario público: libre (verde claro) y ocupado (rojo claro). Contraste ≥ 7:1 con el texto. */
+  --free-bg: #d5ebc8;
+  --free-fg: #24512a;
+  --occupied-bg: #f5d3ca;
+  --occupied-fg: #7a2a1a;
   --pending-bg: #f6e3b5;
   --pending-border: #b98a1f;
   --blocked-bg: #d8d2c4;
@@ -42,6 +47,10 @@
   --color-line-strong: var(--line-strong);
   --color-busy-bg: var(--busy-bg);
   --color-busy-fg: var(--busy-fg);
+  --color-free-bg: var(--free-bg);
+  --color-free-fg: var(--free-fg);
+  --color-occupied-bg: var(--occupied-bg);
+  --color-occupied-fg: var(--occupied-fg);
   --color-pending-bg: var(--pending-bg);
   --color-pending-border: var(--pending-border);
   --color-blocked-bg: var(--blocked-bg);

@@ -8,9 +8,14 @@ import { cn } from "@/lib/cn";
 
 export type DayState = "booked" | "pending" | "blocked";
 
+/** Feriado o evento que se marca con un puntito en el día. */
+export type DayMark = { kind: "feriado" | "evento"; name: string };
+
 type Props = {
   /** Días ocupados (vista pública). */
   occupied?: OccupiedRange[];
+  /** Feriados y eventos a marcar (solo se ven en la vista pública, con puntito y en el texto). */
+  marks?: Record<ISO, DayMark>;
   /** Estados detallados por día (panel del admin). Si se pasa, reemplaza a `occupied`. */
   states?: Record<ISO, DayState>;
   /** Solo lectura si no se pasa onPick. */
@@ -28,7 +33,7 @@ type Props = {
 
 const MAX_MONTHS_AHEAD = 18;
 
-export function Calendar({ occupied = [], states, onPick, start, end, size = "md", pickable, selectionTone = "olive", className }: Props) {
+export function Calendar({ occupied = [], marks, states, onPick, start, end, size = "md", pickable, selectionTone = "olive", className }: Props) {
   const today = todayISO();
   const [view, setView] = useState(() => ({ y: Number(today.slice(0, 4)), m: Number(today.slice(5, 7)) - 1 }));
   const busy = useMemo(() => {
@@ -105,6 +110,7 @@ export function Calendar({ occupied = [], states, onPick, start, end, size = "md
                       : past
                         ? "ya pasó"
                         : "libre";
+          const mark = marks?.[iso];
           const style = isEdge
             ? cn("font-bold text-white", selectionTone === "terra" ? "bg-terra" : "bg-olive")
             : inRange
@@ -115,41 +121,57 @@ export function Calendar({ occupied = [], states, onPick, start, end, size = "md
                   ? "border-2 border-dashed border-pending-border bg-pending-bg font-bold text-ink"
                   : dayState === "blocked"
                     ? "bg-blocked-bg text-blocked-fg line-through"
-                    : isBusy
-                ? "bg-busy-bg text-busy-fg line-through"
-                : past
-                  ? "text-muted/60"
-                  : "border border-line bg-paper";
+                    : states
+                      ? "border border-line bg-paper"
+                      : isBusy
+                        ? "bg-occupied-bg text-occupied-fg font-bold line-through"
+                        : past
+                          ? "bg-paper text-muted/60"
+                          : "bg-free-bg font-bold text-free-fg";
           const classes = cn(
-            "flex w-full items-center justify-center rounded-2xl text-xl sm:text-2xl",
+            "relative flex w-full items-center justify-center rounded-2xl text-xl sm:text-2xl",
             height,
             style,
-            canPick && !isEdge && !inRange && "hover:bg-sage",
+            canPick && !isEdge && !inRange && "hover:brightness-95",
           );
-          const label = `${formatLong(iso)}, ${state}`;
+          const label = `${formatLong(iso)}, ${state}${mark ? `, ${mark.kind}: ${mark.name}` : ""}`;
+          const content = (
+            <>
+              {day}
+              {mark && <span aria-hidden className="absolute right-1.5 top-1.5 h-2.5 w-2.5 rounded-full bg-terra" />}
+            </>
+          );
 
           return canPick ? (
             <button key={iso} type="button" onClick={() => onPick?.(iso)} aria-label={label} aria-pressed={isEdge} className={classes}>
-              {day}
+              {content}
             </button>
           ) : (
             <div key={iso} role={interactive ? "button" : undefined} aria-disabled={interactive ? true : undefined} aria-label={label} className={cn(classes, interactive && "cursor-not-allowed")}>
-              {day}
+              {content}
             </div>
           );
         })}
       </div>
 
       <ul className="mt-5 flex flex-wrap gap-x-6 gap-y-2 text-lg">
-        <Legend swatch="border border-line bg-paper">Libre</Legend>
         {states ? (
           <>
+            <Legend swatch="border border-line bg-paper">Libre</Legend>
             <Legend swatch="bg-olive text-white">Reservado</Legend>
             <Legend swatch="border-2 border-dashed border-pending-border bg-pending-bg">Pendiente</Legend>
             <Legend swatch="bg-blocked-bg text-blocked-fg line-through">Bloqueado</Legend>
           </>
         ) : (
-          <Legend swatch="bg-busy-bg text-busy-fg line-through">Ocupado</Legend>
+          <>
+            <Legend swatch="bg-free-bg font-bold text-free-fg">Disponible</Legend>
+            <Legend swatch="bg-occupied-bg font-bold text-occupied-fg line-through">Ocupado</Legend>
+          </>
+        )}
+        {marks && (
+          <Legend swatch="border border-line bg-paper" dot>
+            Feriado o evento
+          </Legend>
         )}
         {interactive && <Legend swatch={selectionTone === "terra" ? "bg-terra text-white" : "bg-olive text-white"}>Elegido</Legend>}
       </ul>
@@ -157,11 +179,11 @@ export function Calendar({ occupied = [], states, onPick, start, end, size = "md
   );
 }
 
-function Legend({ swatch, children }: { swatch: string; children: React.ReactNode }) {
+function Legend({ swatch, dot, children }: { swatch: string; dot?: boolean; children: React.ReactNode }) {
   return (
     <li className="flex items-center gap-2">
-      <span aria-hidden className={cn("flex h-8 w-8 items-center justify-center rounded-lg text-sm font-bold", swatch)}>
-        9
+      <span aria-hidden className={cn("relative flex h-8 w-8 shrink-0 items-center justify-center rounded-lg", swatch)}>
+        {dot && <span className="h-2.5 w-2.5 rounded-full bg-terra" />}
       </span>
       {children}
     </li>
