@@ -28,7 +28,8 @@ export async function proxy(request: NextRequest) {
     return !data.user && !isLogin ? toLogin() : response;
   }
 
-  if (process.env.NODE_ENV !== "production" && !isLogin && request.cookies.get("dev_admin")?.value !== "1") return toLogin();
+  const demoAuth = process.env.NODE_ENV !== "production" || process.env.ALLOW_DEMO_ADMIN === "1";
+  if (demoAuth && !isLogin && request.cookies.get("dev_admin")?.value !== "1") return toLogin();
   return response;
 }
 

@@ -3,9 +3,14 @@ import { redirect } from "next/navigation";
 import { hasSupabase } from "./data";
 import { supabaseServer } from "./supabase-server";
 
-/** Solo para desarrollo, sin Supabase: entrar con cualquier email y la clave "demo". Nunca en producción. */
+/**
+ * Login de prueba, sin Supabase: entrar con cualquier email y la clave "demo".
+ * Activo en desarrollo siempre; en producción solo si se prende a propósito con la variable de
+ * entorno ALLOW_DEMO_ADMIN=1 (para poder probar el panel en un sitio de demostración). Sacar esa
+ * variable (o no cargarla) en el sitio real.
+ */
 export const DEV_COOKIE = "dev_admin";
-export const devAuthEnabled = !hasSupabase && process.env.NODE_ENV !== "production";
+export const devAuthEnabled = !hasSupabase && (process.env.NODE_ENV !== "production" || process.env.ALLOW_DEMO_ADMIN === "1");
 export const DEV_PASSWORD = "demo";
 
 export type AdminUser = { email: string };
