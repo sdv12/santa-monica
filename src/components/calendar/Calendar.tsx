@@ -8,14 +8,16 @@ import { cn } from "@/lib/cn";
 
 export type DayState = "booked" | "pending" | "blocked";
 
-/** Feriado o evento que se marca con un puntito en el día. */
-export type DayMark = { kind: "feriado" | "evento"; name: string };
+/** Feriado o evento que se marca con un puntito en el día. Tocar el día muestra el nombre. */
+export type DayMark = { kind: "feriado" | "evento"; name: string; text: string };
 
 type Props = {
   /** Días ocupados (vista pública). */
   occupied?: OccupiedRange[];
   /** Feriados y eventos a marcar (solo se ven en la vista pública, con puntito y en el texto). */
   marks?: Record<ISO, DayMark>;
+  /** Si se pasa, tocar un día marcado (feriado/evento) avisa cuál es, en vez de solo el puntito. */
+  onMarkClick?: (iso: ISO, mark: DayMark) => void;
   /** Estados detallados por día (panel del admin). Si se pasa, reemplaza a `occupied`. */
   states?: Record<ISO, DayState>;
   /** Solo lectura si no se pasa onPick. */
@@ -33,7 +35,7 @@ type Props = {
 
 const MAX_MONTHS_AHEAD = 18;
 
-export function Calendar({ occupied = [], marks, states, onPick, start, end, size = "md", pickable, selectionTone = "olive", className }: Props) {
+export function Calendar({ occupied = [], marks, onMarkClick, states, onPick, start, end, size = "md", pickable, selectionTone = "olive", className }: Props) {
   const today = todayISO();
   const [view, setView] = useState(() => ({ y: Number(today.slice(0, 4)), m: Number(today.slice(5, 7)) - 1 }));
   const busy = useMemo(() => {
@@ -94,6 +96,8 @@ export function Calendar({ occupied = [], marks, states, onPick, start, end, siz
           const isEdge = iso === start || iso === end;
           const inRange = Boolean(start && end && iso > start && iso < end);
           const canPick = interactive && !past && (pickable ? pickable(iso) : !isBusy);
+          const mark = marks?.[iso];
+          const canOpenMark = Boolean(mark) && Boolean(onMarkClick) && !canPick;
 
           const state = isEdge
             ? "elegido"
@@ -110,7 +114,6 @@ export function Calendar({ occupied = [], marks, states, onPick, start, end, siz
                       : past
                         ? "ya pasó"
                         : "libre";
-          const mark = marks?.[iso];
           const style = isEdge
             ? cn("font-bold text-white", selectionTone === "terra" ? "bg-terra" : "bg-olive")
             : inRange
@@ -132,9 +135,9 @@ export function Calendar({ occupied = [], marks, states, onPick, start, end, siz
             "relative flex w-full items-center justify-center rounded-2xl text-xl sm:text-2xl",
             height,
             style,
-            canPick && !isEdge && !inRange && "hover:brightness-95",
+            (canPick || canOpenMark) && !isEdge && !inRange && "hover:brightness-95",
           );
-          const label = `${formatLong(iso)}, ${state}${mark ? `, ${mark.kind}: ${mark.name}` : ""}`;
+          const label = `${formatLong(iso)}, ${state}${mark ? ` — ${mark.name}${canOpenMark ? ": tocá para ver más" : ""}` : ""}`;
           const content = (
             <>
               {day}
@@ -142,11 +145,21 @@ export function Calendar({ occupied = [], marks, states, onPick, start, end, siz
             </>
           );
 
-          return canPick ? (
-            <button key={iso} type="button" onClick={() => onPick?.(iso)} aria-label={label} aria-pressed={isEdge} className={classes}>
-              {content}
-            </button>
-          ) : (
+          if (canPick) {
+            return (
+              <button key={iso} type="button" onClick={() => onPick?.(iso)} aria-label={label} aria-pressed={isEdge} className={classes}>
+                {content}
+              </button>
+            );
+          }
+          if (canOpenMark) {
+            return (
+              <button key={iso} type="button" onClick={() => onMarkClick?.(iso, mark!)} aria-label={label} className={classes}>
+                {content}
+              </button>
+            );
+          }
+          return (
             <div key={iso} role={interactive ? "button" : undefined} aria-disabled={interactive ? true : undefined} aria-label={label} className={cn(classes, interactive && "cursor-not-allowed")}>
               {content}
             </div>
@@ -170,7 +183,7 @@ export function Calendar({ occupied = [], marks, states, onPick, start, end, siz
         )}
         {marks && (
           <Legend swatch="border border-line bg-paper" dot>
-            Feriado o evento
+            {onMarkClick ? "Feriado o evento: tocá el día para ver cuál es" : "Feriado o evento"}
           </Legend>
         )}
         {interactive && <Legend swatch={selectionTone === "terra" ? "bg-terra text-white" : "bg-olive text-white"}>Elegido</Legend>}

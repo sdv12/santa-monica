@@ -4,8 +4,8 @@ import { todayISO } from "@/lib/dates";
 import { getUpcomingHolidays } from "@/lib/holidays";
 import { mergeCalendarDays } from "@/lib/calendar-days";
 import { Button, Card, Section } from "@/components/ui";
-import { Calendar, type DayMark } from "@/components/calendar/Calendar";
 import { EventosLista } from "./EventosLista";
+import { DisponibilidadCalendario } from "./DisponibilidadCalendario";
 
 const priceRows = (site: Awaited<ReturnType<typeof getSite>>) => [
   { label: "Lunes a jueves", value: site.prices.weekdays },
@@ -25,7 +25,6 @@ export async function Disponibilidad() {
   const today = todayISO();
   const [occupied, site, events, holidays] = await Promise.all([getOccupiedRanges(), getSite(), getEvents(), getUpcomingHolidays(today)]);
   const calendarDays = mergeCalendarDays(holidays, events);
-  const marks = Object.fromEntries(calendarDays.map((d) => [d.date, { kind: d.kind, name: d.name } satisfies DayMark]));
   const upcoming = calendarDays.filter((d) => d.date >= today).slice(0, 8);
 
   return (
@@ -40,7 +39,7 @@ export async function Disponibilidad() {
       <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr] lg:gap-8">
         <div className="flex flex-col gap-6">
           <Card className="reveal">
-            <Calendar occupied={occupied} marks={marks} size="md" />
+            <DisponibilidadCalendario occupied={occupied} days={calendarDays} />
           </Card>
           <Card className="reveal">
             <EventosLista days={upcoming} />
