@@ -116,13 +116,13 @@ export function Calendar({ occupied = [], marks, states, onPick, start, end, siz
             : inRange
               ? cn("font-bold text-ink", selectionTone === "terra" ? "bg-blush" : "bg-sage-deep")
               : dayState === "booked"
-                ? "bg-olive font-bold text-white"
+                ? "bg-occupied-bg text-occupied-fg font-bold line-through"
                 : dayState === "pending"
                   ? "border-2 border-dashed border-pending-border bg-pending-bg font-bold text-ink"
                   : dayState === "blocked"
                     ? "bg-blocked-bg text-blocked-fg line-through"
                     : states
-                      ? "border border-line bg-paper"
+                      ? "bg-free-bg font-bold text-free-fg"
                       : isBusy
                         ? "bg-occupied-bg text-occupied-fg font-bold line-through"
                         : past
@@ -157,8 +157,8 @@ export function Calendar({ occupied = [], marks, states, onPick, start, end, siz
       <ul className="mt-5 flex flex-wrap gap-x-6 gap-y-2 text-lg">
         {states ? (
           <>
-            <Legend swatch="border border-line bg-paper">Libre</Legend>
-            <Legend swatch="bg-olive text-white">Reservado</Legend>
+            <Legend swatch="bg-free-bg font-bold text-free-fg">Libre</Legend>
+            <Legend swatch="bg-occupied-bg font-bold text-occupied-fg line-through">Reservado</Legend>
             <Legend swatch="border-2 border-dashed border-pending-border bg-pending-bg">Pendiente</Legend>
             <Legend swatch="bg-blocked-bg text-blocked-fg line-through">Bloqueado</Legend>
           </>

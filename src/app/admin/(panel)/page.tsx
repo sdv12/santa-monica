@@ -7,6 +7,7 @@ import { Card } from "@/components/ui";
 import { PendingCard } from "@/components/admin/PendingCard";
 import { UpcomingRow } from "@/components/admin/UpcomingRow";
 import { AdminCalendar } from "@/components/admin/AdminCalendar";
+import { Estadisticas } from "@/components/admin/Estadisticas";
 
 export const metadata = { title: "Reservas" };
 
@@ -27,6 +28,8 @@ export default async function ReservasPage({ searchParams }: { searchParams: Pro
             <CircleCheck size={28} strokeWidth={1.7} aria-hidden /> Reserva guardada ✓
           </p>
         )}
+
+        <Estadisticas bookings={bookings} />
 
         <section aria-labelledby="para-responder" className="flex flex-col gap-5">
           <h1 id="para-responder" className="t-h2">
