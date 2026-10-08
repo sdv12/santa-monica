@@ -6,7 +6,7 @@ import { revalidatePath } from "next/cache";
 import { DEV_COOKIE, DEV_PASSWORD, devAuthEnabled, requireAdmin } from "@/lib/auth";
 import { hasSupabase, getSettings } from "@/lib/data";
 import { supabaseServer } from "@/lib/supabase-server";
-import { createAdminBooking, createBlock, deleteBlock, saveSettings, setBookingStatus, setDepositReceived, type Result } from "@/lib/admin-data";
+import { createAdminBooking, createBlock, createEvent, deleteBlock, deleteEvent, saveSettings, setBookingStatus, setDepositReceived, type Result } from "@/lib/admin-data";
 import { validateContact } from "@/lib/booking-rules";
 import { isISO } from "@/lib/dates";
 import { quote } from "@/lib/pricing";
@@ -111,6 +111,19 @@ export async function bloquear(desde: string, hasta: string, motivo: string): Pr
 export async function desbloquear(id: string): Promise<ActionResult> {
   await requireAdmin();
   return done(await deleteBlock(id), "Bloqueo borrado ✓");
+}
+
+// ───────── Eventos locales (los feriados nacionales se traen solos de una API) ─────────
+export async function crearEvento(fecha: string, nombre: string, texto: string): Promise<ActionResult> {
+  await requireAdmin();
+  if (!isISO(fecha)) return { ok: false, field: "fecha", error: "Elegí una fecha." };
+  if (nombre.trim().length < 2) return { ok: false, field: "nombre", error: "Ponele un nombre al evento." };
+  return done(await createEvent(fecha, nombre.trim().slice(0, 120), texto.trim().slice(0, 300)), "Evento guardado ✓");
+}
+
+export async function borrarEvento(id: string): Promise<ActionResult> {
+  await requireAdmin();
+  return done(await deleteEvent(id), "Evento borrado ✓");
 }
 
 // ───────── Precios y datos ─────────

@@ -1,9 +1,10 @@
 import { getSite } from "@/lib/get-site";
-import { getOccupiedRanges } from "@/lib/data";
+import { getEvents, getOccupiedRanges } from "@/lib/data";
 import { todayISO } from "@/lib/dates";
+import { getUpcomingHolidays } from "@/lib/holidays";
+import { mergeCalendarDays } from "@/lib/calendar-days";
 import { Button, Card, Section } from "@/components/ui";
 import { Calendar, type DayMark } from "@/components/calendar/Calendar";
-import { calendarDays } from "../../../config/events";
 import { EventosLista } from "./EventosLista";
 
 const priceRows = (site: Awaited<ReturnType<typeof getSite>>) => [
@@ -21,8 +22,9 @@ const conditions = (site: Awaited<ReturnType<typeof getSite>>) => [
 ];
 
 export async function Disponibilidad() {
-  const [occupied, site] = await Promise.all([getOccupiedRanges(), getSite()]);
   const today = todayISO();
+  const [occupied, site, events, holidays] = await Promise.all([getOccupiedRanges(), getSite(), getEvents(), getUpcomingHolidays(today)]);
+  const calendarDays = mergeCalendarDays(holidays, events);
   const marks = Object.fromEntries(calendarDays.map((d) => [d.date, { kind: d.kind, name: d.name } satisfies DayMark]));
   const upcoming = calendarDays.filter((d) => d.date >= today).slice(0, 8);
 

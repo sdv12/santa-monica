@@ -32,6 +32,9 @@ export type Booking = {
 
 export type Block = { id: string; start_date: ISO; end_date: ISO; reason: string | null };
 
+/** Evento local (fiesta, feria, etc.), a diferencia de los feriados nacionales que vienen de una API. */
+export type CalendarEvent = { id: string; date: ISO; name: string; text: string };
+
 export type NewBooking = Pick<Booking, "guest_name" | "guest_phone" | "guest_email" | "guests" | "check_in" | "check_out" | "notes" | "total_estimate">;
 
 export type CreateResult = { ok: true } | { ok: false; reason: "taken" | "blocked" | "min_nights" | "capacity" | "past" | "unknown" };
@@ -48,14 +51,14 @@ async function anonClient() {
 
 // ───────── Almacenamiento local de prueba ─────────
 const devFile = path.join(process.cwd(), ".data", "dev.json");
-export type DevStore = { bookings: Booking[]; blocks: Block[]; settings: Partial<Settings> };
+export type DevStore = { bookings: Booking[]; blocks: Block[]; events: CalendarEvent[]; settings: Partial<Settings> };
 
 export async function readDev(): Promise<DevStore> {
   try {
     const raw = JSON.parse(await fs.readFile(devFile, "utf8"));
-    return { bookings: raw.bookings ?? [], blocks: raw.blocks ?? [], settings: raw.settings ?? {} };
+    return { bookings: raw.bookings ?? [], blocks: raw.blocks ?? [], events: raw.events ?? [], settings: raw.settings ?? {} };
   } catch {
-    return { bookings: [], blocks: [], settings: {} };
+    return { bookings: [], blocks: [], events: [], settings: {} };
   }
 }
 
@@ -156,4 +159,15 @@ export async function createBooking(b: NewBooking): Promise<CreateResult> {
   });
   await writeDev(dev);
   return { ok: true };
+}
+
+/** Eventos locales cargados por el admin (lectura pública, sin datos sensibles). */
+export async function getEvents(): Promise<CalendarEvent[]> {
+  const db = await anonClient();
+  if (db) {
+    const { data, error } = await db.from("events").select("*").order("date");
+    if (error) throw new Error(`No se pudieron leer los eventos: ${error.message}`);
+    return data as CalendarEvent[];
+  }
+  return (await readDev()).events;
 }

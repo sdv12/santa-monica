@@ -53,6 +53,15 @@ create table public.blocked_dates (
   check (end_date >= start_date)
 );
 
+-- ───────── Eventos locales (los feriados nacionales se traen de una API pública, no se guardan acá) ─────────
+create table public.events (
+  id uuid primary key default gen_random_uuid(),
+  date date not null,
+  name text not null check (char_length(name) between 2 and 120),
+  text text check (char_length(text) <= 300),
+  created_at timestamptz not null default now()
+);
+
 -- ───────── Reglas al insertar una reserva ─────────
 -- security definer: la persona que reserva no puede leer blocked_dates ni settings, pero el chequeo sí.
 create function public.check_new_booking() returns trigger
@@ -90,9 +99,11 @@ create view public.occupied_dates as
 alter table public.settings enable row level security;
 alter table public.bookings enable row level security;
 alter table public.blocked_dates enable row level security;
+alter table public.events enable row level security;
 
 -- Público: leer ajustes (precios, horarios...) y las fechas ocupadas.
 create policy "ajustes visibles" on public.settings for select to anon, authenticated using (true);
+create policy "eventos visibles" on public.events for select to anon, authenticated using (true);
 grant select on public.occupied_dates to anon, authenticated;
 
 -- Público: solo puede INSERTAR reservas pendientes, web y sin seña recibida. No puede leer ninguna.
@@ -103,3 +114,4 @@ create policy "pedir reserva" on public.bookings for insert to anon
 create policy "admin reservas" on public.bookings for all to authenticated using (true) with check (true);
 create policy "admin bloqueos" on public.blocked_dates for all to authenticated using (true) with check (true);
 create policy "admin ajustes" on public.settings for update to authenticated using (true) with check (true);
+create policy "admin eventos" on public.events for all to authenticated using (true) with check (true);

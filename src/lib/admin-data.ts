@@ -1,5 +1,5 @@
 import { addDays, type ISO } from "./dates";
-import { rowToSettings, readDev, writeDev, hasSupabase, settingsFallback, type Block, type Booking, type BookingStatus, type NewBooking } from "./data";
+import { rowToSettings, readDev, writeDev, hasSupabase, settingsFallback, type Block, type Booking, type BookingStatus, type CalendarEvent, type NewBooking } from "./data";
 import type { Settings } from "./settings";
 import { supabaseServer } from "./supabase-server";
 
@@ -98,6 +98,40 @@ export async function deleteBlock(id: string): Promise<Result> {
   }
   const store = await readDev();
   store.blocks = store.blocks.filter((b) => b.id !== id);
+  await writeDev(store);
+  return OK;
+}
+
+export async function listEvents(): Promise<CalendarEvent[]> {
+  const client = await db();
+  if (client) {
+    const { data, error } = await client.from("events").select("*").order("date");
+    if (error) throw new Error(error.message);
+    return data as CalendarEvent[];
+  }
+  return (await readDev()).events.toSorted((a, b) => a.date.localeCompare(b.date));
+}
+
+export async function createEvent(date: ISO, name: string, text: string): Promise<Result> {
+  const client = await db();
+  if (client) {
+    const { error } = await client.from("events").insert({ date, name, text });
+    return error ? fail(generic) : OK;
+  }
+  const store = await readDev();
+  store.events.push({ id: crypto.randomUUID(), date, name, text });
+  await writeDev(store);
+  return OK;
+}
+
+export async function deleteEvent(id: string): Promise<Result> {
+  const client = await db();
+  if (client) {
+    const { error } = await client.from("events").delete().eq("id", id);
+    return error ? fail(generic) : OK;
+  }
+  const store = await readDev();
+  store.events = store.events.filter((e) => e.id !== id);
   await writeDev(store);
   return OK;
 }

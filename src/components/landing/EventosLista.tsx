@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { CalendarHeart, X } from "lucide-react";
 import { Button } from "@/components/ui";
 import { formatLong, type ISO } from "@/lib/dates";
-import type { CalendarDay } from "../../../config/events";
+import type { CalendarDay } from "@/lib/calendar-days";
 
 /** Próximos feriados y eventos. Cada uno abre un aviso con invitación a reservar esas fechas. */
 export function EventosLista({ days }: { days: CalendarDay[] }) {
