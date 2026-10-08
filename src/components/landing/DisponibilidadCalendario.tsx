@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Calendar, type DayMark } from "@/components/calendar/Calendar";
 import type { OccupiedRange } from "@/lib/availability";
-import type { CalendarDay } from "@/lib/calendar-days";
+import { longWeekendDays, type CalendarDay } from "@/lib/calendar-days";
 import type { ISO } from "@/lib/dates";
 import { AvisoFecha } from "./AvisoFecha";
 
@@ -15,7 +15,7 @@ export function DisponibilidadCalendario({ occupied, days }: { occupied: Occupie
 
   return (
     <>
-      <Calendar occupied={occupied} marks={marks} onMarkClick={(iso) => setOpen(byDate.get(iso) ?? null)} size="md" />
+      <Calendar occupied={occupied} marks={marks} onMarkClick={(iso) => setOpen(byDate.get(iso) ?? null)} longWeekend={longWeekendDays(days)} size="md" />
       {open && <AvisoFecha day={open} onClose={() => setOpen(null)} />}
     </>
   );

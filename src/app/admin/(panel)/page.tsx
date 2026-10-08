@@ -1,8 +1,10 @@
 import { CircleCheck } from "lucide-react";
 import { requireAdmin } from "@/lib/auth";
-import { listBlocks, listBookings } from "@/lib/admin-data";
+import { listBlocks, listBookings, listEvents } from "@/lib/admin-data";
 import { buildStates } from "@/lib/admin-states";
 import { todayISO } from "@/lib/dates";
+import { getUpcomingHolidays } from "@/lib/holidays";
+import { mergeCalendarDays } from "@/lib/calendar-days";
 import { Card } from "@/components/ui";
 import { PendingCard } from "@/components/admin/PendingCard";
 import { UpcomingRow } from "@/components/admin/UpcomingRow";
@@ -14,8 +16,9 @@ export const metadata = { title: "Reservas" };
 export default async function ReservasPage({ searchParams }: { searchParams: Promise<{ guardado?: string }> }) {
   await requireAdmin();
   const { guardado } = await searchParams;
-  const [bookings, blocks] = await Promise.all([listBookings(), listBlocks()]);
   const today = todayISO();
+  const [bookings, blocks, events, holidays] = await Promise.all([listBookings(), listBlocks(), listEvents(), getUpcomingHolidays(today)]);
+  const calendarDays = mergeCalendarDays(holidays, events);
 
   const toAnswer = bookings.filter((b) => b.status === "pending").toSorted((a, b) => a.created_at.localeCompare(b.created_at));
   const upcoming = bookings.filter((b) => b.status === "confirmed" && b.check_out >= today);
@@ -66,7 +69,7 @@ export default async function ReservasPage({ searchParams }: { searchParams: Pro
       </div>
 
       <aside aria-label="Calendario" className="rounded-card border border-line bg-paper p-5 shadow-soft sm:p-6 lg:sticky lg:top-6">
-        <AdminCalendar states={buildStates(bookings, blocks)} />
+        <AdminCalendar states={buildStates(bookings, blocks)} days={calendarDays} />
       </aside>
     </div>
   );

@@ -18,6 +18,8 @@ type Props = {
   marks?: Record<ISO, DayMark>;
   /** Si se pasa, tocar un día marcado (feriado/evento) avisa cuál es, en vez de solo el puntito. */
   onMarkClick?: (iso: ISO, mark: DayMark) => void;
+  /** Días que forman parte de un fin de semana largo: se pintan con un fondo propio (ver lib/calendar-days). */
+  longWeekend?: Set<ISO>;
   /** Estados detallados por día (panel del admin). Si se pasa, reemplaza a `occupied`. */
   states?: Record<ISO, DayState>;
   /** Solo lectura si no se pasa onPick. */
@@ -35,7 +37,7 @@ type Props = {
 
 const MAX_MONTHS_AHEAD = 18;
 
-export function Calendar({ occupied = [], marks, onMarkClick, states, onPick, start, end, size = "md", pickable, selectionTone = "olive", className }: Props) {
+export function Calendar({ occupied = [], marks, onMarkClick, longWeekend, states, onPick, start, end, size = "md", pickable, selectionTone = "olive", className }: Props) {
   const today = todayISO();
   const [view, setView] = useState(() => ({ y: Number(today.slice(0, 4)), m: Number(today.slice(5, 7)) - 1 }));
   const busy = useMemo(() => {
@@ -125,12 +127,16 @@ export function Calendar({ occupied = [], marks, onMarkClick, states, onPick, st
                   : dayState === "blocked"
                     ? "bg-blocked-bg text-blocked-fg line-through"
                     : states
-                      ? "bg-free-bg font-bold text-free-fg"
+                      ? longWeekend?.has(iso)
+                        ? "bg-blush font-bold text-ink"
+                        : "bg-free-bg font-bold text-free-fg"
                       : isBusy
                         ? "bg-occupied-bg text-occupied-fg font-bold line-through"
                         : past
                           ? "bg-paper text-muted/60"
-                          : "bg-free-bg font-bold text-free-fg";
+                          : longWeekend?.has(iso)
+                            ? "bg-blush font-bold text-ink"
+                            : "bg-free-bg font-bold text-free-fg";
           const classes = cn(
             "relative flex w-full items-center justify-center rounded-2xl text-xl sm:text-2xl",
             height,
@@ -181,6 +187,7 @@ export function Calendar({ occupied = [], marks, onMarkClick, states, onPick, st
             <Legend swatch="bg-occupied-bg font-bold text-occupied-fg line-through">Ocupado</Legend>
           </>
         )}
+        {longWeekend && longWeekend.size > 0 && <Legend swatch="bg-blush font-bold text-ink">Fin de semana largo</Legend>}
         {marks && (
           <Legend swatch="border border-line bg-paper" dot>
             {onMarkClick ? "Feriado o evento: tocá el día para ver cuál es" : "Feriado o evento"}

@@ -3,18 +3,24 @@
 import { useState } from "react";
 import { Lock } from "lucide-react";
 import { Button, Field } from "@/components/ui";
-import { Calendar, type DayState } from "@/components/calendar/Calendar";
+import { Calendar, type DayMark, type DayState } from "@/components/calendar/Calendar";
+import { AvisoFecha } from "@/components/landing/AvisoFecha";
+import { longWeekendDays, type CalendarDay } from "@/lib/calendar-days";
 import { formatShort, type ISO } from "@/lib/dates";
 import { bloquear } from "@/app/admin/actions";
 import { FeedbackMsg, useAction } from "./useAction";
 
-/** Calendario del panel con sus estados y el modo "Bloquear fechas". */
-export function AdminCalendar({ states, size = "md" }: { states: Record<ISO, DayState>; size?: "md" | "lg" }) {
+/** Calendario del panel: estados de reserva, el modo "Bloquear fechas" y los feriados/eventos. */
+export function AdminCalendar({ states, days = [], size = "md" }: { states: Record<ISO, DayState>; days?: CalendarDay[]; size?: "md" | "lg" }) {
   const [blocking, setBlocking] = useState(false);
   const [start, setStart] = useState<ISO | null>(null);
   const [end, setEnd] = useState<ISO | null>(null);
   const [reason, setReason] = useState("");
+  const [openDay, setOpenDay] = useState<CalendarDay | null>(null);
   const { pending, feedback, run, setFeedback } = useAction();
+
+  const marks: Record<ISO, DayMark> = Object.fromEntries(days.map((d) => [d.date, { kind: d.kind, name: d.name, text: d.text }]));
+  const byDate = new Map(days.map((d) => [d.date, d]));
 
   const reset = () => {
     setBlocking(false);
@@ -35,12 +41,16 @@ export function AdminCalendar({ states, size = "md" }: { states: Record<ISO, Day
     <div className="flex flex-col gap-5">
       <Calendar
         states={states}
+        marks={marks}
+        onMarkClick={blocking ? undefined : (iso) => setOpenDay(byDate.get(iso) ?? null)}
+        longWeekend={longWeekendDays(days)}
         size={size}
         selectionTone="terra"
         start={blocking ? start : null}
         end={blocking ? (end ?? start) : null}
         onPick={blocking ? pick : undefined}
       />
+      {openDay && <AvisoFecha day={openDay} onClose={() => setOpenDay(null)} />}
 
       {!blocking ? (
         <div className="flex flex-col gap-2">

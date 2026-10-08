@@ -3,6 +3,7 @@ import { listBlocks, listBookings, listEvents } from "@/lib/admin-data";
 import { buildStates } from "@/lib/admin-states";
 import { todayISO } from "@/lib/dates";
 import { getUpcomingHolidays } from "@/lib/holidays";
+import { mergeCalendarDays } from "@/lib/calendar-days";
 import { Card } from "@/components/ui";
 import { AdminCalendar } from "@/components/admin/AdminCalendar";
 import { BlockRow } from "@/components/admin/BlockRow";
@@ -17,6 +18,7 @@ export default async function CalendarioPage() {
   const [bookings, blocks, events, holidays] = await Promise.all([listBookings(), listBlocks(), listEvents(), getUpcomingHolidays(today)]);
   const activeBlocks = blocks.filter((b) => b.end_date >= today);
   const activeEvents = events.filter((e) => e.date >= today);
+  const calendarDays = mergeCalendarDays(holidays, events);
 
   return (
     <div className="grid items-start gap-10 lg:grid-cols-[1.3fr_1fr]">
@@ -25,7 +27,7 @@ export default async function CalendarioPage() {
           <em>Calendario</em> de la casa
         </h1>
         <Card>
-          <AdminCalendar states={buildStates(bookings, blocks)} size="lg" />
+          <AdminCalendar states={buildStates(bookings, blocks)} days={calendarDays} size="lg" />
         </Card>
       </section>
 
