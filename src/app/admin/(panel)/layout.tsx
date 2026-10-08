@@ -5,6 +5,7 @@ import { requireAdmin } from "@/lib/auth";
 import { listBookings } from "@/lib/admin-data";
 import { logout } from "@/app/admin/actions";
 import { AdminNav } from "@/components/admin/AdminNav";
+import pkg from "../../../../package.json";
 
 export const metadata: Metadata = { title: { default: "Administración", template: "%s · Administración" }, robots: { index: false } };
 
@@ -40,6 +41,21 @@ export default async function PanelLayout({ children }: { children: React.ReactN
           {children}
         </div>
       </main>
+      <footer className="border-t border-line bg-paper px-5 py-6 sm:px-10 lg:px-20">
+        <div className="mx-auto flex max-w-[1400px] flex-wrap items-center justify-between gap-3 text-base text-muted">
+          <p>
+            {site.name} · Administración · v{pkg.version}
+          </p>
+          <div className="flex flex-wrap items-center gap-x-6 gap-y-1">
+            <a href="/" className="py-1 underline underline-offset-4 hover:no-underline">
+              Ver la página
+            </a>
+            <a href="/admin/precios" className="py-1 underline underline-offset-4 hover:no-underline">
+              Precios y datos
+            </a>
+          </div>
+        </div>
+      </footer>
     </>
   );
 }
