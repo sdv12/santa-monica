@@ -128,14 +128,14 @@ export function Calendar({ occupied = [], marks, onMarkClick, longWeekend, state
                     ? "bg-blocked-bg text-blocked-fg line-through"
                     : states
                       ? longWeekend?.has(iso)
-                        ? "bg-blush font-bold text-ink"
+                        ? "border-2 border-dotted border-terra bg-weekend-bg font-bold text-weekend-fg"
                         : "bg-free-bg font-bold text-free-fg"
                       : isBusy
                         ? "bg-occupied-bg text-occupied-fg font-bold line-through"
                         : past
                           ? "bg-paper text-muted/60"
                           : longWeekend?.has(iso)
-                            ? "bg-blush font-bold text-ink"
+                            ? "border-2 border-dotted border-terra bg-weekend-bg font-bold text-weekend-fg"
                             : "bg-free-bg font-bold text-free-fg";
           const classes = cn(
             "relative flex w-full items-center justify-center rounded-2xl text-xl sm:text-2xl",
@@ -187,7 +187,7 @@ export function Calendar({ occupied = [], marks, onMarkClick, longWeekend, state
             <Legend swatch="bg-occupied-bg font-bold text-occupied-fg line-through">Ocupado</Legend>
           </>
         )}
-        {longWeekend && longWeekend.size > 0 && <Legend swatch="bg-blush font-bold text-ink">Fin de semana largo</Legend>}
+        {longWeekend && longWeekend.size > 0 && <Legend swatch="border-2 border-dotted border-terra bg-weekend-bg font-bold text-weekend-fg">Fin de semana largo</Legend>}
         {marks && (
           <Legend swatch="border border-line bg-paper" dot>
             {onMarkClick ? "Feriado o evento: tocá el día para ver cuál es" : "Feriado o evento"}

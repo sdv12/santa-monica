@@ -27,6 +27,9 @@
   --pending-border: #b98a1f;
   --blocked-bg: #d8d2c4;
   --blocked-fg: #3f3d33;
+  /* Fin de semana largo: tono arena neutro (no rojo ni dorado), + borde punteado terracota. */
+  --weekend-bg: #ddd0ae;
+  --weekend-fg: #3c331c;
 
   --error: #9b2c1f;
   --shadow-soft: 0 14px 32px rgba(51, 64, 47, 0.1);
@@ -51,6 +54,8 @@
   --color-free-fg: var(--free-fg);
   --color-occupied-bg: var(--occupied-bg);
   --color-occupied-fg: var(--occupied-fg);
+  --color-weekend-bg: var(--weekend-bg);
+  --color-weekend-fg: var(--weekend-fg);
   --color-pending-bg: var(--pending-bg);
   --color-pending-border: var(--pending-border);
   --color-blocked-bg: var(--blocked-bg);
