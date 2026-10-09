@@ -10,6 +10,7 @@ import { PendingCard } from "@/components/admin/PendingCard";
 import { UpcomingRow } from "@/components/admin/UpcomingRow";
 import { AdminCalendar } from "@/components/admin/AdminCalendar";
 import { Estadisticas } from "@/components/admin/Estadisticas";
+import { ComoFunciona } from "@/components/admin/ComoFunciona";
 
 export const metadata = { title: "Reservas" };
 
@@ -31,6 +32,8 @@ export default async function ReservasPage({ searchParams }: { searchParams: Pro
             <CircleCheck size={28} strokeWidth={1.7} aria-hidden /> Reserva guardada ✓
           </p>
         )}
+
+        <ComoFunciona />
 
         <Estadisticas bookings={bookings} />
 
