@@ -4,6 +4,7 @@ import { site } from "../../config/site";
 import type { ISO } from "./dates";
 import type { OccupiedRange } from "./availability";
 import type { Settings } from "./settings";
+import { DEMO_BOOKINGS } from "./demo-seed";
 
 /**
  * Capa de datos del servidor. Con NEXT_PUBLIC_SUPABASE_URL y NEXT_PUBLIC_SUPABASE_ANON_KEY usa Supabase
@@ -58,7 +59,10 @@ export async function readDev(): Promise<DevStore> {
     const raw = JSON.parse(await fs.readFile(devFile, "utf8"));
     return { bookings: raw.bookings ?? [], blocks: raw.blocks ?? [], events: raw.events ?? [], settings: raw.settings ?? {} };
   } catch {
-    return { bookings: [], blocks: [], events: [], settings: {} };
+    // No hay archivo (primera vez, o un hosting donde el disco no persiste entre pedidos).
+    // En modo demo, mostramos reservas de ejemplo en vez de un panel vacío.
+    const demo = process.env.ALLOW_DEMO_ADMIN === "1";
+    return { bookings: demo ? DEMO_BOOKINGS : [], blocks: [], events: [], settings: {} };
   }
 }
 
