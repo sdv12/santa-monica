@@ -27,8 +27,8 @@ export const localGuide: GuideGroup[] = [
   {
     title: "Para comer",
     items: [
-      { name: "[Restaurante recomendado]", detail: "[Tipo de comida y dirección] · a [X] km (MOCK)" },
-      { name: "[Cervecería o café]", detail: "[Qué recomiendan] · a [X] km (MOCK)" },
+      { name: "La Vaquita", detail: "[Tipo de comida y qué recomiendan: completar] · a [X] km (MOCK)" },
+      { name: "Chañar", detail: "[Tipo de comida y qué recomiendan: completar] · a [X] km (MOCK)" },
       { name: "[Almacén o panadería]", detail: "Para comprar lo del día · a [X] km (MOCK)" },
     ],
   },

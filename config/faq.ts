@@ -3,9 +3,10 @@
  *
  * ⚠️ MOCK: las respuestas marcadas con (MOCK) son de ejemplo, no la política real de la casa.
  * Antes de publicar, reemplazalas por la respuesta verdadera. Las que tienen datos confirmados
- * (cochera, cámaras, lavarropas, horarios) ya están bien.
+ * (cochera, cámaras, lavarropas, horarios, ropa de cama) ya están bien.
  *
  * Regla de la casa: NO se aceptan mascotas (no aparece en las preguntas a propósito).
+ * La casa aloja hasta 6 personas (2 por habitación, 3 dormitorios).
  */
 export type FaqItem = { question: string; answer: string };
 
@@ -33,7 +34,7 @@ export const faqs: FaqItem[] = [
   },
   {
     question: "¿La casa incluye ropa de cama y toallas?",
-    answer: "Sí, la casa incluye sábanas, toallas y repasadores. Lo único que tenés que traer es tu toalla de pileta (MOCK).",
+    answer: "Sí, la casa provee ropa de cama y una toalla de mano por persona. Traé tu propia toalla de baño y la de pileta.",
   },
   {
     question: "¿Hay lavarropas y tendedero?",

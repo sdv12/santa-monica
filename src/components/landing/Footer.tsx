@@ -39,7 +39,7 @@ export async function Footer() {
         <p>
           © {new Date().getFullYear()} {site.name} · v{pkg.version}
         </p>
-        <p>Producto cordobés. Hecho por sdvi12 - 2026</p>
+        <p>Producto cordobés 🧉. Hecho por sdv12 - 2026</p>
         <a href="/admin" className="py-1 underline underline-offset-4">
           Acceso administrador
         </a>

@@ -1,10 +1,10 @@
 /**
  * Único lugar para editar los textos y datos de la casa.
  *
- * ⚠️ MOCK: localidad, dirección, mapa, precios, seña, horarios, estadía mínima,
- * descripción y las cantidades de dormitorios/baños de acá abajo son de ejemplo (inventados
- * para ver el sitio con contenido), no los datos reales de la casa.
- * Antes de publicar, reemplazá cada uno por el dato real.
+ * ⚠️ MOCK: precios, seña, horarios, estadía mínima y la descripción larga de acá abajo siguen
+ * siendo de ejemplo (inventados para ver el sitio con contenido), no los datos reales de la casa.
+ * Antes de publicar, reemplazá cada uno por el dato real. Localidad, dirección, mapa, capacidad y
+ * comodidades ya son datos reales, confirmados por el dueño.
  *
  * Más adelante, precios, seña, horarios, estadía mínima, teléfono y descripción
  * se leen de la tabla `settings` de Supabase (el admin los edita); estos valores
@@ -35,9 +35,9 @@ export interface SiteConfig {
 export const site: SiteConfig = {
   name: "Santa Mónica",
   hosts: "Gabriela y Juan", // quiénes atienden: aparece en el panel de admin y en "Cómo llegar"
-  locality: "Villa General Belgrano",
-  address: "Camino de las Sierras, km 4, Villa General Belgrano, Córdoba",
-  mapEmbedUrl: "https://maps.google.com/maps?q=Villa+General+Belgrano,+C%C3%B3rdoba&z=14&output=embed",
+  locality: "Santa Rosa de Calamuchita",
+  address: "Paraje Santa Mónica, Santa Rosa de Calamuchita, Córdoba", // sin altura de calle todavía: se la pasamos al huésped por WhatsApp al confirmar
+  mapEmbedUrl: "https://maps.google.com/maps?q=-32.073642,-64.584487&z=15&output=embed",
 
   phone: "351 514-8446", // como se muestra en pantalla
   phoneHref: "5493515148446", // solo dígitos con código de país: 54 + 9 + código de área + número
@@ -51,7 +51,7 @@ export const site: SiteConfig = {
   },
   depositPercent: "30", // % de seña
   minNights: "2",
-  maxGuests: "8",
+  maxGuests: "6", // apto 6 personas, 2 por habitación (3 dormitorios)
   checkIn: "15:00",
   checkOut: "10:00",
 
@@ -65,7 +65,7 @@ export const site: SiteConfig = {
     priceHoliday: 120_000,
     depositPercent: 30,
     minNights: 2,
-    maxGuests: 8,
+    maxGuests: 6,
   } as Record<"priceWeekday" | "priceWeekend" | "priceHoliday" | "depositPercent" | "minNights" | "maxGuests", number | null>,
   holidays: [] as string[], // noches que se cobran como feriado, "YYYY-MM-DD"
 
@@ -73,8 +73,8 @@ export const site: SiteConfig = {
     "Una casa de campo rodeada de sierras, pensada para desconectar unos días en familia o con amigos. Living con chimenea, pileta y un quincho grande para las tardes de asado.",
 
   amenities: [
-    { icon: "bed", label: "3 dormitorios" },
-    { icon: "bath", label: "1 baño: ducha e inodoro separados, lavamanos compartido" },
+    { icon: "bed", label: "3 dormitorios (2 personas cada uno)" },
+    { icon: "bath", label: "1 baño: antebaño, inodoro y ducha, cada uno por separado" },
     { icon: "waves", label: "Pileta" },
     { icon: "flame", label: "Parrilla y quincho" },
     { icon: "trees", label: "Galería" },
