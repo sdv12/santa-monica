@@ -27,15 +27,19 @@ export async function LaCasa() {
         </h2>
         <p className="t-lead">{site.description}</p>
       </div>
-      <ul className="reveal mx-auto mt-8 grid max-w-4xl gap-x-6 gap-y-3 sm:mt-10 sm:grid-cols-2 sm:gap-y-5 lg:grid-cols-3">
+      <ul className="reveal mx-auto mt-6 grid max-w-4xl grid-cols-2 gap-x-4 gap-y-4 sm:mt-10 sm:gap-x-6 sm:gap-y-5 lg:grid-cols-3">
         {site.amenities.map((a) => {
           const Icon = icons[a.icon];
           return (
-            <li key={a.label} className="flex items-start gap-4 text-xl font-bold">
-              <span aria-hidden className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-sage text-olive">
-                <Icon size={28} strokeWidth={1.7} />
+            <li key={a.label} className="flex items-start gap-3 sm:gap-4">
+              <span aria-hidden className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-sage text-olive sm:h-14 sm:w-14">
+                <Icon size={22} strokeWidth={1.7} className="sm:hidden" />
+                <Icon size={28} strokeWidth={1.7} className="hidden sm:block" />
               </span>
-              <span className="pt-3">{a.label}</span>
+              <span className="flex flex-col pt-1 sm:pt-3">
+                <span className="text-lg font-bold sm:text-xl">{a.label}</span>
+                {a.detail && <span className="text-sm text-muted sm:text-base">{a.detail}</span>}
+              </span>
             </li>
           );
         })}

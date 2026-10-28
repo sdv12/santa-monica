@@ -29,7 +29,7 @@ export interface SiteConfig {
   numbers: Record<"priceWeekday" | "priceWeekend" | "priceHoliday" | "depositPercent" | "minNights" | "maxGuests", number | null>;
   holidays: string[];
   description: string;
-  amenities: { icon: string; label: string }[];
+  amenities: { icon: string; label: string; detail?: string }[];
 }
 
 export const site: SiteConfig = {
@@ -73,8 +73,8 @@ export const site: SiteConfig = {
     "Una casa de campo rodeada de sierras, pensada para desconectar unos días en familia o con amigos. Living con chimenea, pileta y un quincho grande para las tardes de asado.",
 
   amenities: [
-    { icon: "bed", label: "3 dormitorios (2 personas cada uno)" },
-    { icon: "bath", label: "1 baño: antebaño, inodoro y ducha, cada uno por separado" },
+    { icon: "bed", label: "3 dormitorios", detail: "2 personas cada uno" },
+    { icon: "bath", label: "1 baño", detail: "antebaño, inodoro y ducha separados" },
     { icon: "waves", label: "Pileta" },
     { icon: "flame", label: "Parrilla y quincho" },
     { icon: "trees", label: "Galería" },

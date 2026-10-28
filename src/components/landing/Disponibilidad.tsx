@@ -25,7 +25,7 @@ export async function Disponibilidad() {
   const today = todayISO();
   const [occupied, site, events, holidays] = await Promise.all([getOccupiedRanges(), getSite(), getEvents(), getUpcomingHolidays(today)]);
   const calendarDays = mergeCalendarDays(holidays, events);
-  const upcoming = calendarDays.filter((d) => d.date >= today).slice(0, 8);
+  const upcoming = calendarDays.filter((d) => d.date >= today);
 
   return (
     <Section tone="cream" id="precios" labelledBy="titulo-precios">
