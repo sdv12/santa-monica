@@ -3,6 +3,7 @@ import { Fraunces, Atkinson_Hyperlegible } from "next/font/google";
 import { site } from "../../config/site";
 import { getSite } from "@/lib/get-site";
 import { SiteProvider } from "@/lib/site-context";
+import { InstallSW } from "@/components/ui/InstallSW";
 import "./globals.css";
 
 const fraunces = Fraunces({
@@ -24,6 +25,9 @@ export const metadata: Metadata = {
   title: { default: `${site.name} · Casa de campo en ${site.locality}`, template: `%s · ${site.name}` },
   description: site.description,
   openGraph: { locale: "es_AR", type: "website", siteName: site.name },
+  manifest: "/manifest.webmanifest",
+  // "Agregar a pantalla de inicio" en iOS: se abre como app, sin la barra de Safari.
+  appleWebApp: { capable: true, title: site.name, statusBarStyle: "black-translucent" },
 };
 
 export const viewport: Viewport = { themeColor: "#F4EEE3" };
@@ -43,6 +47,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           Saltar al contenido
         </a>
         <SiteProvider value={siteData}>{children}</SiteProvider>
+        <InstallSW />
       </body>
     </html>
   );
