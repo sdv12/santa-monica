@@ -1,6 +1,8 @@
+import { ChevronDown } from "lucide-react";
 import { Section } from "@/components/ui";
 import { localGuide } from "../../../config/local-guide";
 
+/** Acordeón con <details>/<summary> (igual que el FAQ): cada categoría cerrada hasta que se toca. */
 export function GuiaLocal() {
   if (localGuide.length === 0) return null;
   return (
@@ -13,13 +15,16 @@ export function GuiaLocal() {
         <p className="t-lead mt-2">Trekkings, fiestas, dónde comer y cómo moverse, cerca de la casa.</p>
       </div>
 
-      <div className="reveal grid gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3">
+      <div className="reveal mx-auto flex max-w-3xl flex-col gap-3 sm:gap-4">
         {localGuide.map((g) => (
-          <section key={g.title} aria-labelledby={`guia-${g.title}`} className="flex flex-col gap-3 rounded-card border border-line bg-cream p-5 sm:p-6">
-            <h3 id={`guia-${g.title}`} className="font-display text-2xl font-semibold">
-              {g.title}
-            </h3>
-            <ul className="flex flex-col divide-y divide-line">
+          <details key={g.title} className="group rounded-card border border-line bg-cream open:bg-white">
+            <summary className="flex min-h-14 cursor-pointer list-none items-center justify-between gap-4 px-5 py-3 text-xl font-bold sm:min-h-16 sm:px-6 sm:py-4 [&::-webkit-details-marker]:hidden">
+              <span>
+                {g.title} <span className="font-sans text-base font-normal text-muted">({g.items.length})</span>
+              </span>
+              <ChevronDown size={26} strokeWidth={1.7} aria-hidden className="shrink-0 transition-transform group-open:rotate-180" />
+            </summary>
+            <ul className="flex flex-col divide-y divide-line px-5 pb-4 sm:px-6 sm:pb-6">
               {g.items.map((it) => (
                 <li key={it.name} className="py-3">
                   <p className="text-lg font-bold">{it.name}</p>
@@ -27,7 +32,7 @@ export function GuiaLocal() {
                 </li>
               ))}
             </ul>
-          </section>
+          </details>
         ))}
       </div>
     </Section>
