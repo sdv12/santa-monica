@@ -8,13 +8,15 @@ import { cn } from "@/lib/cn";
 import { galleryPhotos } from "../../../config/gallery";
 
 /**
- * Acordeón horizontal de fotos, con el mismo tamaño de retrato que tenía la foto de "La casa".
- * Tocar un panel lo agranda. Desde ahí se puede ampliar la foto a pantalla completa.
+ * En celular: tira horizontal de fotos del mismo tamaño, se desliza. Tocar una la pasa a "activa".
+ * En escritorio: una foto grande con una fila de miniaturas cuadradas abajo (en vez del acordeón
+ * de tiras angostas de antes). Desde cualquiera de las dos se puede ampliar a pantalla completa.
  */
 export function Galeria() {
   const [active, setActive] = useState(0);
   const [lightbox, setLightbox] = useState<number | null>(null);
   if (galleryPhotos.length === 0) return null;
+  const activePhoto = galleryPhotos[active];
 
   return (
     <Section tone="cream" labelledBy="titulo-galeria">
@@ -25,12 +27,9 @@ export function Galeria() {
         </h2>
       </div>
 
-      <div className="reveal mx-auto w-full max-w-md">
-        <div
-          role="tablist"
-          aria-label="Fotos de la casa"
-          className="flex h-[360px] gap-2 overflow-x-auto pb-2 sm:h-[560px] sm:gap-3 sm:overflow-visible"
-        >
+      {/* Celular */}
+      <div className="reveal mx-auto w-full max-w-md sm:hidden">
+        <div role="tablist" aria-label="Fotos de la casa" className="flex h-[360px] gap-2 overflow-x-auto pb-2">
           {galleryPhotos.map((p, i) => {
             const isActive = i === active;
             return (
@@ -42,28 +41,44 @@ export function Galeria() {
                 aria-controls="foto-activa"
                 aria-label={p.alt}
                 onClick={() => setActive(i)}
-                className={cn(
-                  "relative h-full w-[75vw] shrink-0 overflow-hidden rounded-2xl border-2 transition-[flex-grow] duration-500 sm:w-auto",
-                  isActive ? "border-olive sm:grow-[6]" : "border-transparent sm:grow-[1]",
-                )}
+                className={cn("relative h-full w-[75vw] shrink-0 overflow-hidden rounded-2xl border-2", isActive ? "border-olive" : "border-transparent")}
               >
-                {p.src ? (
-                  <Image src={p.src} alt="" fill sizes="(min-width: 640px) 448px, 75vw" className="object-cover" />
-                ) : (
-                  <div className="absolute inset-0">
-                    <PhotoPlaceholder />
-                  </div>
-                )}
-                {!isActive && <span aria-hidden className="absolute inset-0 hidden bg-ink/30 sm:block" />}
+                <Photo photo={p} sizes="75vw" />
               </button>
             );
           })}
         </div>
       </div>
 
-      <div className="reveal mx-auto mt-4 flex max-w-md flex-col items-center gap-3 sm:mt-5">
+      {/* Escritorio: una foto grande + miniaturas */}
+      <div className="reveal mx-auto hidden w-full max-w-5xl sm:block">
+        <div key={active} className="fade-swap relative aspect-[16/10] w-full overflow-hidden rounded-card">
+          <Photo photo={activePhoto} sizes="(min-width: 1024px) 1000px, 90vw" priority />
+        </div>
+        <div role="tablist" aria-label="Fotos de la casa" className="mt-3 grid grid-cols-7 gap-3">
+          {galleryPhotos.map((p, i) => {
+            const isActive = i === active;
+            return (
+              <button
+                key={p.alt}
+                type="button"
+                role="tab"
+                aria-selected={isActive}
+                aria-controls="foto-activa"
+                aria-label={p.alt}
+                onClick={() => setActive(i)}
+                className={cn("relative aspect-square overflow-hidden rounded-xl border-2", isActive ? "border-olive" : "border-transparent hover:border-line-strong")}
+              >
+                <Photo photo={p} sizes="140px" />
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      <div className="reveal mx-auto mt-4 flex max-w-md flex-col items-center gap-3 sm:mt-5 sm:max-w-none">
         <p id="foto-activa" className="text-center text-xl font-bold">
-          {galleryPhotos[active].alt}
+          {activePhoto.alt}
         </p>
         <button
           type="button"
@@ -83,6 +98,16 @@ export function Galeria() {
         />
       )}
     </Section>
+  );
+}
+
+function Photo({ photo, sizes, priority }: { photo: (typeof galleryPhotos)[number]; sizes: string; priority?: boolean }) {
+  return photo.src ? (
+    <Image src={photo.src} alt="" fill priority={priority} sizes={sizes} className="object-cover" />
+  ) : (
+    <div className="absolute inset-0">
+      <PhotoPlaceholder />
+    </div>
   );
 }
 

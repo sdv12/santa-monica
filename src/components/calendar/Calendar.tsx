@@ -190,7 +190,7 @@ export function Calendar({ occupied = [], marks, onMarkClick, longWeekend, state
         {longWeekend && longWeekend.size > 0 && <Legend swatch="border-2 border-dotted border-terra bg-weekend-bg font-bold text-weekend-fg">Fin de semana largo</Legend>}
         {marks && (
           <Legend swatch="border border-line bg-paper" dot>
-            {onMarkClick ? "Feriado o evento: tocá el día para ver cuál es" : "Feriado o evento"}
+            {onMarkClick ? "Feriado o evento (tocalo)" : "Feriado o evento"}
           </Legend>
         )}
         {interactive && <Legend swatch={selectionTone === "terra" ? "bg-terra text-white" : "bg-olive text-white"}>Elegido</Legend>}

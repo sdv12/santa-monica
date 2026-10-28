@@ -31,11 +31,11 @@ export async function LaCasa() {
         {site.amenities.map((a) => {
           const Icon = icons[a.icon];
           return (
-            <li key={a.label} className="flex items-center gap-4 text-xl font-bold">
+            <li key={a.label} className="flex items-start gap-4 text-xl font-bold">
               <span aria-hidden className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-sage text-olive">
                 <Icon size={28} strokeWidth={1.7} />
               </span>
-              {a.label}
+              <span className="pt-3">{a.label}</span>
             </li>
           );
         })}

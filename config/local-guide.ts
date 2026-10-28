@@ -1,9 +1,8 @@
 /**
  * "Para el resto del día": trekkings, fiestas, dónde comer, cómo moverse y distancias.
  *
- * ⚠️ MOCK: los nombres de lugares, comercios y distancias de acá abajo son de ejemplo. Antes de
- * publicar, completá cada uno con datos reales y verificados (lugares que sí recomiendan, km reales).
- * No dejar comercios inventados como recomendación.
+ * ⚠️ MOCK: lo que queda entre [corchetes] (senderos, miradores, el almacén, el centro del pueblo)
+ * sigue siendo de ejemplo. "Para comer" y "A qué distancia está" ya son datos reales confirmados.
  */
 export type GuideItem = { name: string; detail: string };
 export type GuideGroup = { title: string; items: GuideItem[] };
@@ -27,8 +26,8 @@ export const localGuide: GuideGroup[] = [
   {
     title: "Para comer",
     items: [
-      { name: "La Vaquita", detail: "[Tipo de comida y qué recomiendan: completar] · a [X] km (MOCK)" },
-      { name: "Chañar", detail: "[Tipo de comida y qué recomiendan: completar] · a [X] km (MOCK)" },
+      { name: "La Vaquita", detail: "Bodegón, a poco más de 1 km. Con reserva sí o sí." },
+      { name: "Chañar", detail: "Resto-bar, a poco más de 1 km. Preferible ir con reserva." },
       { name: "[Almacén o panadería]", detail: "Para comprar lo del día · a [X] km (MOCK)" },
     ],
   },
@@ -42,8 +41,9 @@ export const localGuide: GuideGroup[] = [
   {
     title: "A qué distancia está",
     items: [
-      { name: "El río", detail: "A [X] km (MOCK: completar)." },
-      { name: "El Durazno", detail: "A [X] km (MOCK: completar)." },
+      { name: "El río", detail: "4 minutos en auto · 6 en bici · 15 caminando." },
+      { name: "Playa Miami", detail: "9 minutos en auto · 13 en bici." },
+      { name: "El Durazno", detail: "43 minutos en auto." },
       { name: "El centro del pueblo", detail: "A [X] minutos a pie o en auto (MOCK)." },
     ],
   },
