@@ -13,7 +13,7 @@ export async function Hero() {
         <div className="flex flex-col gap-4 sm:gap-6">
           <p className="eyebrow">Casa de campo · {site.locality}</p>
           <h1 id="titulo-hero" className="t-h1">
-            Un lugar para <em>quedarse</em> un rato.
+            Bienvenido/a a {site.name}, un lugar para <em>descansar</em>.
           </h1>
           <p className="t-lead max-w-xl">{site.description}</p>
           <ul className="mt-1 flex flex-col gap-2 sm:mt-2 sm:gap-3">

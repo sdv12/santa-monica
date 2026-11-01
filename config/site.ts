@@ -70,7 +70,7 @@ export const site: SiteConfig = {
   holidays: [] as string[], // noches que se cobran como feriado, "YYYY-MM-DD"
 
   description:
-    "Una casa de campo rodeada de sierras, pensada para desconectar unos días en familia o con amigos. Living con chimenea, pileta y un quincho grande para las tardes de asado.",
+    "Casa de campo, rodeada de sierras, pensada para que puedas desconectar con tu familia o amigos. Living, pileta y un quincho grande para unas tardes de asado.",
 
   amenities: [
     { icon: "bed", label: "3 dormitorios", detail: "2 personas cada uno" },
