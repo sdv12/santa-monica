@@ -21,7 +21,13 @@ export function BarraReserva() {
       aria-label="Consultar disponibilidad"
       className="rounded-card border border-line bg-paper p-4 shadow-soft sm:p-8"
     >
-      <div className="grid grid-cols-[minmax(0,1fr)] items-end gap-4 sm:gap-5 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)_auto]">
+      {/*
+        En mobile es flex-col a propósito, no grid: Safari tiene un bug conocido donde un
+        <input type="date"> dentro de una columna de grid ignora el ancho de la columna y se
+        dibuja con su tamaño "preferido" del sistema (se va de ancho). En flex sí respeta el
+        contenedor. El grid de 4 columnas queda solo para desktop, donde no pasa este problema.
+      */}
+      <div className="flex flex-col items-stretch gap-4 sm:gap-5 lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)_auto] lg:items-end">
         <Field
           label="Llegada"
           name="llegada"

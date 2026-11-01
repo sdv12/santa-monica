@@ -11,7 +11,7 @@ type Shared = {
 };
 
 const base =
-  "w-full border-2 bg-white text-xl text-ink placeholder:text-muted/70 " +
+  "w-full min-w-0 border-2 bg-white text-xl text-ink placeholder:text-muted/70 " +
   "border-line-strong focus:border-olive aria-[invalid=true]:border-error";
 
 function Shell({
