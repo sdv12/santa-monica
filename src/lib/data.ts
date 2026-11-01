@@ -67,8 +67,14 @@ export async function readDev(): Promise<DevStore> {
 }
 
 export async function writeDev(store: DevStore) {
-  await fs.mkdir(path.dirname(devFile), { recursive: true });
-  await fs.writeFile(devFile, JSON.stringify(store, null, 2));
+  try {
+    await fs.mkdir(path.dirname(devFile), { recursive: true });
+    await fs.writeFile(devFile, JSON.stringify(store, null, 2));
+  } catch (e) {
+    // Hosting sin disco persistente (ej. Netlify Functions) y sin Supabase todavía: no hay
+    // dónde guardar, pero no debe romper la reserva que el huésped ya completó.
+    console.error("[writeDev] no se pudo guardar (sin disco persistente ni Supabase)", e);
+  }
 }
 
 export function settingsFallback(): Settings {
