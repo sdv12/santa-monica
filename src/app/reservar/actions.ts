@@ -2,6 +2,7 @@
 
 import { createBooking, getOccupiedRanges, getSettings } from "@/lib/data";
 import { notifyAdmin } from "@/lib/notify";
+import { sendGuestConfirmation } from "@/lib/email";
 import { isISO, todayISO } from "@/lib/dates";
 import { quote } from "@/lib/pricing";
 import { validateContact, validateRange } from "@/lib/booking-rules";
@@ -70,5 +71,6 @@ export async function crearReserva(input: ReservaInput): Promise<ReservaResult> 
   } catch (e) {
     console.error("[notifyAdmin]", e); // un aviso fallido no debe romper el pedido ya guardado
   }
+  await sendGuestConfirmation(booking, settings); // ya atrapa sus propios errores, no rompe el pedido
   return { ok: true };
 }

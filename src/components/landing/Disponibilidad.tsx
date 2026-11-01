@@ -3,6 +3,7 @@ import { getEvents, getOccupiedRanges } from "@/lib/data";
 import { todayISO } from "@/lib/dates";
 import { getUpcomingHolidays } from "@/lib/holidays";
 import { mergeCalendarDays } from "@/lib/calendar-days";
+import { plural } from "@/lib/booking-rules";
 import { Button, Card, Section } from "@/components/ui";
 import { EventosLista } from "./EventosLista";
 import { DisponibilidadCalendario } from "./DisponibilidadCalendario";
@@ -17,7 +18,7 @@ const conditions = (site: Awaited<ReturnType<typeof getSite>>) => [
   { label: "Seña", value: `${site.depositPercent}% del total` },
   { label: "Ingreso", value: `desde las ${site.checkIn}` },
   { label: "Salida", value: `hasta las ${site.checkOut}` },
-  { label: "Estadía mínima", value: `${site.minNights} noches` },
+  { label: "Estadía mínima", value: plural(Number(site.minNights), "noche", "noches") },
   { label: "Capacidad", value: `hasta ${site.maxGuests} personas` },
 ];
 
