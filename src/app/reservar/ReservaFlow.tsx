@@ -4,11 +4,12 @@ import { useEffect, useRef, useState, useTransition } from "react";
 import { ArrowLeft, ArrowRight, CircleCheck, Send } from "lucide-react";
 import { useSite } from "@/lib/site-context";
 import { Button, Card, Counter, ErrorMsg, Field, TextArea } from "@/components/ui";
-import { Calendar } from "@/components/calendar/Calendar";
+import { Calendar, type DayMark } from "@/components/calendar/Calendar";
 import { Stepper } from "@/components/reserva/Stepper";
 import { ContactActions } from "@/components/ui";
 import type { OccupiedRange } from "@/lib/availability";
 import { busyNights, plural, validateContact, validateRange, type ContactErrors } from "@/lib/booking-rules";
+import { longWeekendDays, type CalendarDay } from "@/lib/calendar-days";
 import { formatLong, formatShort, isISO, todayISO, type ISO } from "@/lib/dates";
 import { quote } from "@/lib/pricing";
 import { FALLBACK_MAX_GUESTS, formatMoney, type Settings } from "@/lib/settings";
@@ -17,16 +18,19 @@ import { crearReserva } from "./actions";
 type Props = {
   occupied: OccupiedRange[];
   settings: Settings;
+  days: CalendarDay[];
   initial: { llegada: string; salida: string; personas: number };
 };
 
 type Step = 1 | 2 | 3 | 4; // 4 = pantalla final
 
-export function ReservaFlow({ occupied, settings, initial }: Props) {
+export function ReservaFlow({ occupied, settings, days, initial }: Props) {
   const site = useSite();
   const today = todayISO();
   const maxGuests = settings.maxGuests ?? FALLBACK_MAX_GUESTS;
   const busy = busyNights(occupied);
+  const marks: Record<ISO, DayMark> = Object.fromEntries(days.map((d) => [d.date, { kind: d.kind, name: d.name, text: d.text }]));
+  const longWeekend = longWeekendDays(days);
 
   // Valores que vienen de la barra de la landing: se usan solo si son válidos.
   const preStart = isISO(initial.llegada) && !busy.has(initial.llegada) && initial.llegada >= today ? initial.llegada : null;
@@ -117,7 +121,9 @@ export function ReservaFlow({ occupied, settings, initial }: Props) {
         <p className="text-xl">
           Si necesitás algo antes, llamanos al <b>{site.phone}</b>.
         </p>
-        <ContactActions />
+        <ContactActions
+          message={`¡Hola! Soy ${form.nombre.trim() || "..."}. Les escribo por mi pedido de reserva en ${site.name}${start && end ? ` del ${formatShort(start)} al ${formatShort(end)}` : ""}. ¡Gracias!`}
+        />
         <Button href="/" variant="outline" className="mt-2">
           Volver al inicio
         </Button>
@@ -141,7 +147,7 @@ export function ReservaFlow({ occupied, settings, initial }: Props) {
             )}
             <p className="text-xl text-muted">Tocá el día de llegada y después el día de salida.</p>
             <Card>
-              <Calendar occupied={occupied} start={start} end={end} onPick={pick} size="lg" pickable={(d) => d >= today} />
+              <Calendar occupied={occupied} marks={marks} longWeekend={longWeekend} start={start} end={end} onPick={pick} size="lg" pickable={(d) => d >= today} />
             </Card>
             {notice && <ErrorMsg>{notice}</ErrorMsg>}
           </div>
@@ -211,8 +217,10 @@ export function ReservaFlow({ occupied, settings, initial }: Props) {
           </Card>
           <Card className="bg-sage">
             <h2 className="t-h3 mb-3">Cómo es la <em>seña</em></h2>
+            <p className="mb-4 text-xl">
+              ¡Gracias por elegir hospedarte en <b>{site.name}</b>! Tu pedido queda <b>pendiente</b> por ahora: las fechas quedan apartadas para vos hasta que te respondamos.
+            </p>
             <ul className="flex list-disc flex-col gap-2 pl-6 text-xl">
-              <li>Tu pedido queda <b>pendiente</b>: las fechas quedan apartadas para vos hasta que te respondamos.</li>
               <li>Te escribimos por WhatsApp para coordinar la seña{settings.depositPercent != null ? ` del ${settings.depositPercent}%` : ` del ${site.depositPercent}%`}.</li>
               <li>La reserva se confirma cuando recibimos la seña.</li>
               <li>Ingreso desde las {settings.checkIn} y salida hasta las {settings.checkOut}.</li>

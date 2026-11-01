@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
 import { ArrowLeft } from "lucide-react";
 import { Logo } from "@/components/ui";
-import { getOccupiedRanges, getSettings } from "@/lib/data";
+import { getEvents, getOccupiedRanges, getSettings } from "@/lib/data";
+import { getUpcomingHolidays } from "@/lib/holidays";
+import { mergeCalendarDays } from "@/lib/calendar-days";
+import { todayISO } from "@/lib/dates";
 import { AyudaFija } from "@/components/reserva/AyudaFija";
 import { ReservaFlow } from "./ReservaFlow";
 
@@ -14,7 +17,9 @@ const first = (v: string | string[] | undefined) => (Array.isArray(v) ? v[0] : v
 
 export default async function ReservarPage({ searchParams }: { searchParams: Params }) {
   const params = await searchParams;
-  const [occupied, settings] = await Promise.all([getOccupiedRanges(), getSettings()]);
+  const today = todayISO();
+  const [occupied, settings, events, holidays] = await Promise.all([getOccupiedRanges(), getSettings(), getEvents(), getUpcomingHolidays(today)]);
+  const days = mergeCalendarDays(holidays, events);
   return (
     <>
       <header className="px-5 py-4 sm:px-10 lg:px-20">
@@ -29,6 +34,7 @@ export default async function ReservarPage({ searchParams }: { searchParams: Par
         <ReservaFlow
           occupied={occupied}
           settings={settings}
+          days={days}
           initial={{ llegada: first(params.llegada), salida: first(params.salida), personas: Number(first(params.personas)) || 2 }}
         />
       </main>
