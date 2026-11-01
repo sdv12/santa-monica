@@ -25,7 +25,7 @@ function Shell({
   children,
 }: Shared & { id: string; children: React.ReactNode }) {
   return (
-    <div className={cn("flex flex-col gap-2", className)}>
+    <div className={cn("flex min-w-0 flex-col gap-2", className)}>
       <label htmlFor={id} className="text-xl font-bold text-ink">
         {label}
         {optional && <span className="ml-2 font-normal text-muted">(opcional)</span>}
@@ -60,7 +60,7 @@ export function Field({
   const isEmpty = !input.value;
   return (
     <Shell {...{ id, label, hint, error, optional, className }}>
-      <div className="relative">
+      <div className="relative min-w-0">
         <input
           id={id}
           aria-invalid={error ? true : undefined}

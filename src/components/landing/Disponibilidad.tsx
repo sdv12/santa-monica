@@ -53,9 +53,9 @@ export async function Disponibilidad() {
           </h3>
           <dl className="flex flex-col divide-y divide-line">
             {priceRows(site).map((r) => (
-              <div key={r.label} className="flex items-baseline justify-between gap-4 py-3">
-                <dt className="text-xl">{r.label}</dt>
-                <dd className="text-right font-display text-2xl font-semibold">{r.value}</dd>
+              <div key={r.label} className="grid grid-cols-[1fr_auto] items-start gap-x-4 py-3">
+                <dt className="text-lg sm:text-xl">{r.label}</dt>
+                <dd className="shrink-0 text-right font-display text-xl font-semibold sm:text-2xl">{r.value}</dd>
               </div>
             ))}
           </dl>
