@@ -74,6 +74,9 @@ html {
   font-size: 16px;
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
+  /* Red de seguridad: algún elemento puntual puede desbordar un poco (badges con offset negativo,
+     inputs nativos, etc.); sin esto, eso corre toda la página hacia los costados en mobile. */
+  overflow-x: hidden;
 }
 
 body {
@@ -83,6 +86,7 @@ body {
   font-size: 1.1875rem; /* 19px */
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
 }
 
 h1,
