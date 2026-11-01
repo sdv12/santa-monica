@@ -1,5 +1,6 @@
 import { promises as fs } from "node:fs";
 import path from "node:path";
+import { getStore } from "@netlify/blobs";
 import { site } from "../../config/site";
 import type { ISO } from "./dates";
 import type { OccupiedRange } from "./availability";
@@ -50,29 +51,63 @@ async function anonClient() {
   return createClient(supabaseUrl, supabaseAnon, { auth: { persistSession: false } });
 }
 
-// ───────── Almacenamiento local de prueba ─────────
+// ───────── Almacenamiento de prueba (sin Supabase todavía) ─────────
+//
+// En Netlify el disco de las funciones es de solo lectura entre invocaciones, así que un
+// archivo local no sirve para guardar nada ahí. Usamos Netlify Blobs (persiste de verdad,
+// sin configuración extra, mientras el sitio esté desplegado en Netlify) y, si no hay ese
+// contexto (desarrollo local con `next dev` en vez de `netlify dev`), un archivo en disco.
 const devFile = path.join(process.cwd(), ".data", "dev.json");
+const BLOB_STORE = "casa-de-campo-dev";
+const BLOB_KEY = "store";
 export type DevStore = { bookings: Booking[]; blocks: Block[]; events: CalendarEvent[]; settings: Partial<Settings> };
 
+function blobsStore() {
+  try {
+    return getStore(BLOB_STORE);
+  } catch {
+    return null; // sin contexto de Netlify Blobs (desarrollo local sin `netlify dev`)
+  }
+}
+
+function emptyOrDemo(): DevStore {
+  const demo = process.env.ALLOW_DEMO_ADMIN === "1";
+  return { bookings: demo ? DEMO_BOOKINGS : [], blocks: [], events: [], settings: {} };
+}
+
 export async function readDev(): Promise<DevStore> {
+  const store = blobsStore();
+  if (store) {
+    try {
+      const raw = await store.get(BLOB_KEY, { type: "json" });
+      if (raw) return { bookings: raw.bookings ?? [], blocks: raw.blocks ?? [], events: raw.events ?? [], settings: raw.settings ?? {} };
+    } catch (e) {
+      console.error("[readDev] blobs", e);
+    }
+    return emptyOrDemo();
+  }
   try {
     const raw = JSON.parse(await fs.readFile(devFile, "utf8"));
     return { bookings: raw.bookings ?? [], blocks: raw.blocks ?? [], events: raw.events ?? [], settings: raw.settings ?? {} };
   } catch {
-    // No hay archivo (primera vez, o un hosting donde el disco no persiste entre pedidos).
-    // En modo demo, mostramos reservas de ejemplo en vez de un panel vacío.
-    const demo = process.env.ALLOW_DEMO_ADMIN === "1";
-    return { bookings: demo ? DEMO_BOOKINGS : [], blocks: [], events: [], settings: {} };
+    return emptyOrDemo();
   }
 }
 
 export async function writeDev(store: DevStore) {
+  const blobs = blobsStore();
+  if (blobs) {
+    try {
+      await blobs.setJSON(BLOB_KEY, store);
+    } catch (e) {
+      console.error("[writeDev] blobs", e);
+    }
+    return;
+  }
   try {
     await fs.mkdir(path.dirname(devFile), { recursive: true });
     await fs.writeFile(devFile, JSON.stringify(store, null, 2));
   } catch (e) {
-    // Hosting sin disco persistente (ej. Netlify Functions) y sin Supabase todavía: no hay
-    // dónde guardar, pero no debe romper la reserva que el huésped ya completó.
     console.error("[writeDev] no se pudo guardar (sin disco persistente ni Supabase)", e);
   }
 }

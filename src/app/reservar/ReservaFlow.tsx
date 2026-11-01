@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, useTransition } from "react";
+import { useEffect, useRef, useState, useTransition, type RefObject } from "react";
 import { ArrowLeft, ArrowRight, CircleCheck, Send } from "lucide-react";
 import { useSite } from "@/lib/site-context";
 import { Button, Card, Counter, ErrorMsg, Field, TextArea } from "@/components/ui";
@@ -13,6 +13,7 @@ import { longWeekendDays, type CalendarDay } from "@/lib/calendar-days";
 import { formatLong, formatShort, isISO, todayISO, type ISO } from "@/lib/dates";
 import { quote } from "@/lib/pricing";
 import { FALLBACK_MAX_GUESTS, formatMoney, type Settings } from "@/lib/settings";
+import { whatsappLink } from "@/lib/contact";
 import { crearReserva } from "./actions";
 
 type Props = {
@@ -107,28 +108,8 @@ export function ReservaFlow({ occupied, settings, days, initial }: Props) {
   );
 
   if (step === 4) {
-    return (
-      <div className="mx-auto flex max-w-2xl flex-col items-center gap-6 py-10 text-center">
-        <span aria-hidden className="arc flex h-28 w-24 items-center justify-center bg-sage-deep pt-4 text-olive">
-          <CircleCheck size={48} strokeWidth={1.7} />
-        </span>
-        <h1 ref={titleRef} tabIndex={-1} className="t-h2 outline-none">
-          ¡Listo! Te escribimos por <em>WhatsApp</em> para coordinar la seña
-        </h1>
-        <p className="t-lead">
-          Recibimos tu pedido{start && end ? ` del ${formatLong(start)} al ${formatLong(end)}` : ""}. Las fechas quedan reservadas para vos hasta que te respondamos.
-        </p>
-        <p className="text-xl">
-          Si necesitás algo antes, llamanos al <b>{site.phone}</b>.
-        </p>
-        <ContactActions
-          message={`¡Hola! Soy ${form.nombre.trim() || "..."}. Les escribo por mi pedido de reserva en ${site.name}${start && end ? ` del ${formatShort(start)} al ${formatShort(end)}` : ""}. ¡Gracias!`}
-        />
-        <Button href="/" variant="outline" className="mt-2">
-          Volver al inicio
-        </Button>
-      </div>
-    );
+    const whatsappMessage = `¡Hola! Soy ${form.nombre.trim() || "..."}. Les escribo por mi pedido de reserva en ${site.name}${start && end ? ` del ${formatShort(start)} al ${formatShort(end)}` : ""}. ¡Gracias!`;
+    return <Confirmacion start={start} end={end} phone={site.phone} message={whatsappMessage} titleRef={titleRef} />;
   }
 
   const stepper = <Stepper current={step} />;
@@ -263,6 +244,51 @@ function Totals({ q, settings }: { q: ReturnType<typeof quote> | null; settings:
         <dd className="font-bold">{q?.deposit != null ? formatMoney(q.deposit) : q ? unknown : "—"}</dd>
       </div>
     </dl>
+  );
+}
+
+function Confirmacion({
+  start,
+  end,
+  phone,
+  message,
+  titleRef,
+}: {
+  start: ISO | null;
+  end: ISO | null;
+  phone: string;
+  message: string;
+  titleRef: RefObject<HTMLHeadingElement | null>;
+}) {
+  const site = useSite();
+  useEffect(() => {
+    const link = whatsappLink(site, message);
+    if (!link) return;
+    // Pequeña espera para que se vea el mensaje de confirmación antes de salir hacia WhatsApp.
+    const t = setTimeout(() => {
+      window.location.href = link;
+    }, 1200);
+    return () => clearTimeout(t);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  return (
+    <div className="mx-auto flex max-w-2xl flex-col items-center gap-6 py-10 text-center">
+      <span aria-hidden className="arc flex h-28 w-24 items-center justify-center bg-sage-deep pt-4 text-olive">
+        <CircleCheck size={48} strokeWidth={1.7} />
+      </span>
+      <h1 ref={titleRef} tabIndex={-1} className="t-h2 outline-none">
+        ¡Listo! Te llevamos a <em>WhatsApp</em> para coordinar la seña
+      </h1>
+      <p className="t-lead">
+        Recibimos tu pedido{start && end ? ` del ${formatLong(start)} al ${formatLong(end)}` : ""}. Las fechas quedan reservadas para vos hasta que te respondamos.
+      </p>
+      <p className="text-xl">Si no se abre solo, tocá el botón de WhatsApp. O llamanos al {phone}.</p>
+      <ContactActions message={message} />
+      <Button href="/" variant="outline" className="mt-2">
+        Volver al inicio
+      </Button>
+    </div>
   );
 }
 
