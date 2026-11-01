@@ -33,7 +33,7 @@ export async function Hero() {
             photos={[
               { src: "/casa/foto-principal.jpg", alt: "Galería techada de la casa, con luces colgantes, al atardecer, con vista a las sierras" },
               { src: "/casa/galeria-8.jpg", alt: "Unos mates junto a la pileta, de día" },
-              { src: "/casa/casa-exterior.jpg", alt: "Frente de la casa al atardecer, con la pileta y el jardín" },
+              { src: "/casa/casa-exterior.jpg", alt: "Frente de la casa al atardecer, con la pileta y el jardín", position: "top" },
             ]}
             className="aspect-[4/5] w-full"
           />

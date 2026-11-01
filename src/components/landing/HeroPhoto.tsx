@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-type Photo = { src: string; alt: string };
+type Photo = { src: string; alt: string; position?: "center" | "top" };
 
 /**
  * Foto del hero. A diferencia del resto del sitio, no usa el marco en arco: una esquina grande y
@@ -21,7 +21,7 @@ export function HeroPhoto({ photos, className }: { photos: Photo[]; className?: 
           fill
           priority={i === 0}
           sizes="(min-width: 1024px) 40vw, 90vw"
-          className="hero-slide object-cover"
+          className={`hero-slide object-cover ${p.position === "top" ? "object-top" : "object-center"}`}
         />
       ))}
     </div>

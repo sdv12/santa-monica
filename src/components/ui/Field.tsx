@@ -1,4 +1,5 @@
 import { useId } from "react";
+import { CalendarDays } from "lucide-react";
 import { cn } from "@/lib/cn";
 import { ErrorMsg } from "./ErrorMsg";
 
@@ -53,15 +54,34 @@ export function Field({
   ...input
 }: Shared & Omit<React.InputHTMLAttributes<HTMLInputElement>, keyof Shared>) {
   const id = useId();
+  // En iOS, un <input type="date"> vacío no muestra ningún ícono ni texto: queda una caja en
+  // blanco que no parece un campo. Mientras no tenga valor, superponemos un aviso + un ícono.
+  const isDate = input.type === "date";
+  const isEmpty = !input.value;
   return (
     <Shell {...{ id, label, hint, error, optional, className }}>
-      <input
-        id={id}
-        aria-invalid={error ? true : undefined}
-        aria-describedby={describedBy(id, hint, error)}
-        className={cn(base, "min-h-[60px] rounded-full px-6")}
-        {...input}
-      />
+      <div className="relative">
+        <input
+          id={id}
+          aria-invalid={error ? true : undefined}
+          aria-describedby={describedBy(id, hint, error)}
+          className={cn(base, "min-h-[60px] rounded-full px-6", isDate && "pr-14")}
+          {...input}
+        />
+        {isDate && (
+          <CalendarDays
+            aria-hidden
+            size={24}
+            strokeWidth={1.7}
+            className="pointer-events-none absolute right-5 top-1/2 -translate-y-1/2 text-muted"
+          />
+        )}
+        {isDate && isEmpty && (
+          <span aria-hidden className="pointer-events-none absolute inset-y-0 left-6 flex items-center text-xl text-muted/70">
+            Elegí una fecha
+          </span>
+        )}
+      </div>
     </Shell>
   );
 }
