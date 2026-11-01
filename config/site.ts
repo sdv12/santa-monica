@@ -33,10 +33,10 @@ export interface SiteConfig {
 }
 
 export const site: SiteConfig = {
-  name: "Santa Mónica",
+  name: "Oliva",
   hosts: "Gabriela y Juan", // quiénes atienden: aparece en el panel de admin y en "Cómo llegar"
   locality: "Santa Rosa de Calamuchita",
-  address: "Paraje Santa Mónica, Santa Rosa de Calamuchita, Córdoba", // sin altura de calle todavía: se la pasamos al huésped por WhatsApp al confirmar
+  address: "Santa Rosa de Calamuchita, Córdoba", // MOCK: "Paraje Santa Mónica" lo había puesto yo asumiendo que el paraje se llamaba como la casa; sin confirmar el nombre real, lo saqué. Falta la altura de calle (se la pasamos al huésped por WhatsApp al confirmar)
   mapEmbedUrl: "https://maps.google.com/maps?q=-32.073642,-64.584487&z=15&output=embed",
 
   phone: "351 514-8446", // como se muestra en pantalla
