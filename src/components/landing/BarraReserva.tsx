@@ -21,7 +21,7 @@ export function BarraReserva() {
       aria-label="Consultar disponibilidad"
       className="rounded-card border border-line bg-paper p-4 shadow-soft sm:p-8"
     >
-      <div className="grid min-w-0 items-end gap-4 sm:gap-5 lg:grid-cols-[1fr_1fr_1fr_auto]">
+      <div className="grid grid-cols-[minmax(0,1fr)] items-end gap-4 sm:gap-5 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)_auto]">
         <Field
           label="Llegada"
           name="llegada"
