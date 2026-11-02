@@ -89,6 +89,14 @@ body {
   overflow-x: hidden;
 }
 
+/* Safari/WebKit: un <input type="date"> ignora "width: 100%" dentro de un contenedor flexible y
+   se dibuja con su ancho preferido (se va de ancho). Forzar width a 0 y estirarlo con min-width
+   es el workaround que WebKit sí respeta. Chrome y Firefox no lo necesitan, pero no les molesta. */
+input[type="date"] {
+  width: 0;
+  min-width: 100%;
+}
+
 h1,
 h2,
 h3,
