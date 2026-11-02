@@ -89,12 +89,16 @@ body {
   overflow-x: hidden;
 }
 
-/* Safari/WebKit: un <input type="date"> ignora "width: 100%" dentro de un contenedor flexible y
-   se dibuja con su ancho preferido (se va de ancho). Forzar width a 0 y estirarlo con min-width
-   es el workaround que WebKit sí respeta. Chrome y Firefox no lo necesitan, pero no les molesta. */
-input[type="date"] {
-  width: 0;
-  min-width: 100%;
+/* En iOS, un <input type="date"> calcula su propio ancho "preferido" (según su estilo nativo) en
+   vez de respetar width: 100% — por eso se ve angosto o ancho de más según el contenedor. Sacarle
+   el estilo nativo (appearance: none) lo hace comportarse como una caja normal. Solo en iOS/WebKit
+   móvil (@supports -webkit-touch-callout, exclusivo de ahí): Chrome y Safari de escritorio ya
+   funcionan bien con el input nativo y no hace falta tocarlos. */
+@supports (-webkit-touch-callout: none) {
+  input[type="date"] {
+    -webkit-appearance: none;
+    appearance: none;
+  }
 }
 
 h1,
