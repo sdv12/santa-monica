@@ -44,6 +44,7 @@ export function Testimonios() {
       <div className="reveal sm:hidden">
         <HAccordion
           label="Reseñas de huéspedes"
+          showTitle={false}
           items={testimonials.map((t, i) => ({
             id: `${i}`,
             short: `${i + 1}`,
